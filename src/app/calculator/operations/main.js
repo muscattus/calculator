@@ -3,10 +3,10 @@ import { subtraction } from "./subtraction";
 import { multiplication } from "./multiplicatios";
 import { power } from "./power";
 
-export const operations = {
+export const operations = [
     addition,
     subtraction,
     multiplication,
     power
-}
+]
 
