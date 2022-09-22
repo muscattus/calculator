@@ -1,4 +1,7 @@
+import { Operation } from "./Operation";
+
 export function Power() {
+    Operation.call(this);
     this.priority = 3;
     this.operands = 2;
     this.symbol = '^';

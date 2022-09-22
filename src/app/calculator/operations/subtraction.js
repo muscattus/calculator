@@ -1,4 +1,7 @@
+import { Operation } from "./Operation";
+
 export function Subtraction() {
+    Operation.call(this);
     this.priority = 1;
     this.operands = 2;
     this.symbol = '-';

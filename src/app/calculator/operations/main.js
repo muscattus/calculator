@@ -1,9 +1,7 @@
-import { Addition } from "./addition";
-import { Subtraction } from "./subtraction";
-import { Multiplication } from "./multiplicatios";
-import { Power } from "./power";
-
-console.log(Addition);
+import { Addition } from "./Addition";
+import { Subtraction } from "./Subtraction";
+import { Multiplication } from "./Multiplicatios";
+import { Power } from "./Power";
 
 export const operations = {
     '+': Addition,

@@ -1,4 +1,7 @@
+import { Operation } from "./Operation";
+
 export function Multiplication() {
+    Operation.call(this);
     this.priority = 2;
     this.operands = 2;
     this.symbol = '*';
