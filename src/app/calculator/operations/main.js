@@ -1,12 +1,16 @@
-import { addition } from "./addition";
-import { subtraction } from "./subtraction";
-import { multiplication } from "./multiplicatios";
-import { power } from "./power";
+import { Addition } from "./addition";
+import { Subtraction } from "./subtraction";
+import { Multiplication } from "./multiplicatios";
+import { Power } from "./power";
 
-export const operations = [
-    addition,
-    subtraction,
-    multiplication,
-    power
-]
+console.log(Addition);
+
+export const operations = {
+    '+': Addition,
+    '-': Subtraction,
+    '*': Multiplication,
+    '^': Power
+}
+
+export const operators = ['+', '-', '*', '^'];
 

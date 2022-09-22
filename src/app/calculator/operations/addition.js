@@ -1,9 +1,12 @@
-export const addition = {
-    priority: 1,
-    operands: 2,
-    symbol: '+',
-    inputs: [],
-    calc: function(a, b) {
+export function Addition() {
+    this.priority = 1;
+    this.operands = 2;
+    this.symbol = '+';
+    this.inputs = [];
+    this.calc = function(a, b) {
         return +a + +b;
-    },
+    };
+    this.addInput = function(number) {
+        this.inputs.push(number);
+    }
 }
