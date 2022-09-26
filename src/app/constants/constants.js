@@ -1,1 +1,1 @@
-export const numberRegex = /\d+(\.\d+)?$/
+export const numberRegex = new RegExp(/^\d+(\.\d+)?$/);

@@ -15,21 +15,28 @@ export class Context {
     }
 
     addOperation(operation) {
-        if (this.operationsStack.length()) {
-            const lastOperation = this.operationsStack.getLast();
-            if (operation.priority > lastOperation.priority) {
-                operation.addInput(lastOperation.takeLastInput());
-                this.operationsStack.add(operation);
-            } else {
-                const result = this.calculate();
-                operation.addInput(result);
-                this.operationsStack.add(operation);
+        let input;
+        if (!operation.unary){
+            if (!this.operationsStack.length()) {
+                input = this.standBy;
+                this.standBy = null;
+            }else {
+                const lastOperation = this.operationsStack.getLast();
+                input = operation.priority > lastOperation.priority ? lastOperation.takeLastInput() : this.calculate();
             }
-        } else {
-            operation.addInput(this.standBy);
-            this.standBy = null;
-            this.operationsStack.add(operation);
+            operation.addInput(input);
         }
+        this.operationsStack.add(operation);
+        // if (operation.priority > lastOperation.priority) {
+            //     operation.addInput(lastOperation.takeLastInput());
+            // } else {
+                //     const result = this.calculate();
+                //     operation.addInput(result);
+                // }
+                // } else if (!this.operationsStack.length() && !operation.unary) {
+                    //     operation.addInput(this.standBy);
+                    //     this.standBy = null;
+                    // }
     }
 
     calculate() {
@@ -41,7 +48,6 @@ export class Context {
             if (this.operationsStack.length()) {
                 this.operationsStack.getLast().addInput(result);
             }
-            // console.log(result);
         }
         return result;
     };

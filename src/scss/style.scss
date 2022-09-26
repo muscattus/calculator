@@ -3,9 +3,46 @@
     background-color: rgb(19, 19, 58);
 }
 
-button {
-    border: 1px solid aliceblue;
-    width: 150px;
-    height: 30px;
-    font-size: 20px;
+body {
+    background-color: rgb(19, 19, 58);
+    font-family: 'Share Tech Mono', monospace;
+    display: flex;
+    justify-content: space-between;
+    color: rgb(228, 248, 255);
 }
+
+.button,
+.display{
+    border: 1px solid rgb(243, 252, 255);
+}
+
+.display{
+// grid-area: dp;
+text-align: end;
+line-height: 2em;
+font-size: 1.8em;
+padding: 0 7px;
+}
+
+.button{
+font-size: 2em;
+text-align: center;
+padding-top: 10px;
+}
+
+.button:hover{
+box-shadow: -1px 1px 10px 0px rgba(79, 199, 255, 0.562), -1px 1px 10px rgba(79, 199, 255, 0.562) inset;
+color: white;
+border: 2px solid white;
+cursor: pointer;
+}
+
+
+
+// button {
+//     border: 1px solid aliceblue;
+//     width: 150px;
+//     height: 30px;
+//     font-size: 20px;
+// }
+
