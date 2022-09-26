@@ -1,12 +1,12 @@
 import { Stack } from "./Stack";
 
-export function Context() {
-    this.operationsStack = new Stack;
-    this.standBy;
+export class Context {
+    constructor() {
+        this.operationsStack = new Stack;
+        this.standBy;    
+    }
 
-    
-
-    this.addNumber = function(number) {
+    addNumber(number) {
         if (!this.operationsStack.length()) {
             this.standBy = number;
         } else {
@@ -14,7 +14,7 @@ export function Context() {
         }
     }
 
-    this.addOperation = function(operation) {
+    addOperation(operation) {
         if (this.operationsStack.length()) {
             const lastOperation = this.operationsStack.getLast();
             if (operation.priority > lastOperation.priority) {
@@ -32,7 +32,7 @@ export function Context() {
         }
     }
 
-    this.calculate = function() {
+    calculate() {
         let result;
         while (this.operationsStack.length()) {
             const currentOperation = this.operationsStack.pop();
@@ -41,6 +41,7 @@ export function Context() {
             if (this.operationsStack.length()) {
                 this.operationsStack.getLast().addInput(result);
             }
+            // console.log(result);
         }
         return result;
     };
