@@ -1,5 +1,5 @@
 import { operations} from "./operations/main";
-import { numberRegex, negative } from "../constants/constants";
+import { numberRegex, negative, CODES } from "../constants/constants";
 import { Context } from "./Context";
 import { Stack } from "./Stack";
 
@@ -21,7 +21,15 @@ export class Calculator {
 
     parse (equation) {
         const operatorsRe = this.getOperatorsRe();
-        const equationArray = equation.split(operatorsRe).filter(el => el != '' && el != undefined);
+        let equationArray = equation.split(operatorsRe).filter(el => el != '' && el != undefined);
+        for (let i = 0; i < equationArray.length; i++) {
+            if (equationArray[i] === '-' &&
+                (!equationArray[i-1] || equationArray[i-1] === '(' || operatorsRe.test(equationArray[i-1])) &&
+                numberRegex.test(equationArray[i+1])) {
+                    equationArray[i+1] = (equationArray[i+1] * -1).toString();
+                    equationArray.splice(i, 1);
+            }
+        }
         return equationArray;
     }
     

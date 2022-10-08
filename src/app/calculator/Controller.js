@@ -2,31 +2,8 @@ import { Calculator } from "./Calculator";
 
 export class Controller {
     constructor() {
-    //     if (!Controller._instance) {
-    //         Controller._instance = this;
-    //     }
-    //     this.observers = [];
         this.calculator = new Calculator();
-    //     return Controller._instance;
     }
-
-    // static getInstance() {
-    //     return this._instance;
-    //   }
-
-    // subscribe(listener, notify) {
-    //     this.observers.push({listener, notify});
-    // }
-
-    // unsubscribe(listener) {
-    //     this.observers = this.observers.filter(observer => observer !== listener);
-    // }
-
-    // notify(listener, payload) {
-    //     const observer = this.observers.find(observer => observer.listener === listener);
-    //     console.log
-    //     observer.notify.call(observer.listener, payload);
-    // }
 
     evaluate(equation) {
         return this.calculator.evaluate(equation);

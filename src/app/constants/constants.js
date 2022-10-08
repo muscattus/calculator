@@ -1,4 +1,4 @@
-export const numberRegex = new RegExp(/^\d+(\.\d+)?$/);
+export const numberRegex = new RegExp(/^[+-]?\d+(\.\d+)?$/);
 export const negative = '-';
 
 export const CODES = {

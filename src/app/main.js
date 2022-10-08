@@ -1,11 +1,9 @@
 // import { throws } from 'assert';
-// import { CalculatorHandler } from './calculator/main';
 import { Model } from './calculator/main';
 import { CODES } from './constants/constants'
 
 function initPage() {
-    const calculator = new CalculatorGui();
-    // calculator.init();
+    new CalculatorGui();
 }
 
 
@@ -18,9 +16,7 @@ class CalculatorGui {
         this.output = document.querySelector('#output');
         this.inputButtons = document.querySelectorAll('.button-input');
         this.model = new Model()
-        // this.model = new CalculatorHandler()
         this.model.subscribe(this);
-        // this.calculator = new CalculatorHandler(this, this.displayOutput);
         this.asignEventListeners();
         this.input.focus();
     }
@@ -55,11 +51,7 @@ class CalculatorGui {
         this.output.textContent = this.input.value;
         this.input.value = result;
     }
-    // displayOutput(result) {
-    //     this.output.textContent = this.input.value;
-    //     this.input.value = result;
-    // }
-
+    
     clearInput() {
         this.input.value = '';
         this.output.textContent = '';
