@@ -1,5 +1,4 @@
 import { Stack } from "./Stack";
-
 export class Context {
     constructor() {
         this.operationsStack = new Stack;
@@ -15,6 +14,9 @@ export class Context {
     }
 
     addOperation(operation) {
+        // if (this.operationsStack.length()){
+        //     console.log(this.operationsStack.getLast().hasAllOperands());
+        // }
         let input;
         if (!operation.unary){
             if (!this.operationsStack.length()) {
@@ -27,16 +29,6 @@ export class Context {
             operation.addInput(input);
         }
         this.operationsStack.add(operation);
-        // if (operation.priority > lastOperation.priority) {
-            //     operation.addInput(lastOperation.takeLastInput());
-            // } else {
-                //     const result = this.calculate();
-                //     operation.addInput(result);
-                // }
-                // } else if (!this.operationsStack.length() && !operation.unary) {
-                    //     operation.addInput(this.standBy);
-                    //     this.standBy = null;
-                    // }
     }
 
     calculate() {

@@ -1,14 +1,12 @@
 * {
-    color: aliceblue;
-    background-color: rgb(19, 19, 58);
-}
-
-body {
+    color: rgb(240, 248, 255);
     background-color: rgb(19, 19, 58);
     font-family: 'Share Tech Mono', monospace;
-    display: flex;
-    justify-content: space-between;
-    color: rgb(228, 248, 255);
+}
+
+main {
+    margin: auto;
+    padding: 0;
 }
 
 .button,
@@ -16,33 +14,73 @@ body {
     border: 1px solid rgb(243, 252, 255);
 }
 
+#calculator,
+.numpad,
+.operations {
+    display: grid;
+    gap: 10px;
+}
+
+#calculator{
+    width: 280px;
+    margin: 50px auto;
+    padding: 40px;
+    grid-template-columns: repeat(4, 60px);
+    grid-template-rows: 80px repeat(5, 60px);
+    border: 2px solid rgb(228, 248, 255);
+    border-radius: 5px;
+}
+
 .display{
-// grid-area: dp;
-text-align: end;
-line-height: 2em;
-font-size: 1.8em;
-padding: 0 7px;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    text-align: end;
+    padding: 0 7px;
+    &-input {
+        border: none;
+        outline: none;
+        line-height: 1.5em;
+        font-size: 1.8em;
+        width: 100%;
+        text-align: right;
+        margin: 0;
+        padding: 0;
+        caret-color: rgb(243, 252, 255);
+    }
+    &-output {
+        margin: 0;
+        padding: 0;
+        font-size: 1.3em;
+        height: 1.5em;
+        width: 100%;
+        text-align: right;
+    }
 }
 
 .button{
-font-size: 2em;
-text-align: center;
-padding-top: 10px;
+    font-size: 2em;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.numpad{
+    grid-column: 1 / -1;
+    grid-row: 3 / 6;
+    grid-template-columns: repeat(3, 60px);
+    grid-template-rows: repeat(4, 60px);
+}
+
+.operations{
+    grid-column: 4 / -1;
+    grid-row: 2 / -1;
+    grid-template-columns: 60px;
+    grid-template-rows: repeat(5, 60px);
 }
 
 .button:hover{
-box-shadow: -1px 1px 10px 0px rgba(79, 199, 255, 0.562), -1px 1px 10px rgba(79, 199, 255, 0.562) inset;
-color: white;
-border: 2px solid white;
-cursor: pointer;
+    box-shadow: -1px 1px 10px 0px rgba(79, 199, 255, 0.562), -1px 1px 10px rgba(79, 199, 255, 0.562) inset;
+    color: white;
+    border: 2px solid white;
+    cursor: pointer;
 }
-
-
-
-// button {
-//     border: 1px solid aliceblue;
-//     width: 150px;
-//     height: 30px;
-//     font-size: 20px;
-// }
 

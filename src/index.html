@@ -9,31 +9,35 @@
 <body>
     <main>
         <div id="calculator">
-          <div class="display">0</div>
-          <div class="button clear"  data-val="C">C</div>
-          <div class="button" data-val="/">/</div>
-          <div class="button" data-val="*">*</div>
-          <div class="button" data-val="-">-</div>
-          <div class="numpad">
-            <div class="button num" data-val="7">7</div>
-            <div class="button num" data-val="8">8</div>
-            <div class="button num" data-val="9">9</div>
-            <div class="button num" data-val="4">4</div>
-            <div class="button num" data-val="5">5</div>
-            <div class="button num" data-val="6">6</div>
-            <div class="button num" data-val="1">1</div>
-            <div class="button num" data-val="2">2</div>
-            <div class="button num" data-val="3">3</div>
-            <div class="button num" data-val="0">0</div>
+          <div class="display">
+            <div class="display-output" id="output"></div>
+            <input class="display-input" id="input">
           </div>
-          <div class="button plus" data-val="+">+</div>
-          <div class="button equal" data-val="=">=</div>
+          <div class="button clear button-input" id="clear">C</div>
+          <div class="button button-input"  data-val="(">(</div>
+          <div class="button button-input"  data-val=")">)</div>
+          <div class="numpad">
+            <div class="button num button-input" data-val="7">7</div>
+            <div class="button num button-input" data-val="8">8</div>
+            <div class="button num button-input" data-val="9">9</div>
+            <div class="button num button-input" data-val="4">4</div>
+            <div class="button num button-input" data-val="5">5</div>
+            <div class="button num button-input" data-val="6">6</div>
+            <div class="button num button-input" data-val="1">1</div>
+            <div class="button num button-input" data-val="2">2</div>
+            <div class="button num button-input" data-val="3">3</div>
+            <div class="button num button-input" data-val="-">+/-</div>
+            <div class="button num button-input" data-val="0">0</div>
+            <div class="button num button-input" data-val=".">.</div>
+          </div>
+         <div class="operations">
+            <div class="button plus button-input" data-val="+">+</div>
+            <div class="button plus button-input" data-val="-">-</div>
+            <div class="button plus button-input" data-val="*">*</div>
+            <div class="button plus button-input" data-val="^">^</div>
+            <div class="button equals" data-val="=" id="equals">=</div>
+         </div>
         </div>
       </main>
-    <button id="eval">Calculate</button>
-    <p>1 * 3 + 6 + 3 - 4 ^ 2</p>
-    <p>11 * 3 - 5 ^ 2</p>
-    <p>20 + 30 + 4 + 11</p>
-    <p>See console</p>
 </body>
 </html>

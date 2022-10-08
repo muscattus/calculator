@@ -1,3 +1,4 @@
+
 export function Operation() {
     this.inputs = [];
 
@@ -7,5 +8,9 @@ export function Operation() {
 
     this.takeLastInput = function() {
         return this.inputs.pop();
+    }
+
+    this.hasAllOperands = function() {
+        return this.unary && this.inputs.length === 1 || !this.unary && this.inputs.length === 2; 
     }
 }

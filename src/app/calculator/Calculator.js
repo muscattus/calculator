@@ -1,5 +1,5 @@
 import { operations} from "./operations/main";
-import { numberRegex } from "../constants/constants";
+import { numberRegex, negative } from "../constants/constants";
 import { Context } from "./Context";
 import { Stack } from "./Stack";
 
