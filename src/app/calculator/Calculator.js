@@ -71,7 +71,7 @@ export class Calculator {
 
     openParentheses() {
         const previousContext = this.contextStack.getLast();
-        if (previousContext.operationsStack.length()) {
+        if (previousContext.operationsStack.getLength()) {
             const parentheses = new Context();
             this.contextStack.add(parentheses);
         }
@@ -89,7 +89,7 @@ export class Calculator {
             return 'INVALID INPUT';
         }
         while (equationArray.length) {
-            if (!this.contextStack.length()){
+            if (!this.contextStack.getLength()){
                 let context = new Context();
                 this.contextStack.add(context);
             }
@@ -104,7 +104,7 @@ export class Calculator {
                 this.openParentheses();
             } else if (element === ')') {
                 const interimResult = this.closeParentheses();
-                if (equationArray.length || this.contextStack.length()){
+                if (equationArray.length || this.contextStack.getLength()){
                     equationArray.unshift(interimResult.toString());
                 } else {
                     return interimResult;

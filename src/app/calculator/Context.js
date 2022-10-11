@@ -6,7 +6,7 @@ export class Context {
     }
 
     addNumber(number) {
-        if (!this.operationsStack.length()) {
+        if (!this.operationsStack.getLength()) {
             this.standBy = number;
         } else {
             this.operationsStack.getLast().addInput(number);
@@ -16,7 +16,7 @@ export class Context {
     addOperation(operation) {
         let input;
         if (!operation.unary){
-            if (!this.operationsStack.length()) {
+            if (!this.operationsStack.getLength()) {
                 input = this.standBy;
                 this.standBy = null;
             }else {
@@ -30,11 +30,11 @@ export class Context {
 
     calculate() {
         let result;
-        while (this.operationsStack.length()) {
+        while (this.operationsStack.getLength()) {
             const currentOperation = this.operationsStack.pop();
             result = currentOperation.calc(...currentOperation.inputs);
             currentOperation.inputs = [];
-            if (this.operationsStack.length()) {
+            if (this.operationsStack.getLength()) {
                 this.operationsStack.getLast().addInput(result);
             }
         }

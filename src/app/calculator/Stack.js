@@ -3,12 +3,12 @@ export class Stack {
         this.stack = [];
     }
 
-        length() {
+        getLength() {
             return this.stack.length;
         };
 
         getLast() {
-            return this.stack[this.length() - 1];
+            return this.stack[this.getLength() - 1];
         };
 
         add(something) {
