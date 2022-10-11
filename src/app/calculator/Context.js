@@ -1,7 +1,7 @@
 import { Stack } from "./Stack";
 export class Context {
     constructor() {
-        this.operationsStack = new Stack;
+        this.operationsStack = new Stack();
         this.standBy;    
     }
 
@@ -14,9 +14,6 @@ export class Context {
     }
 
     addOperation(operation) {
-        // if (this.operationsStack.length()){
-        //     console.log(this.operationsStack.getLast().hasAllOperands());
-        // }
         let input;
         if (!operation.unary){
             if (!this.operationsStack.length()) {

@@ -1,8 +1,15 @@
 import { Calculator } from "./Calculator";
+import { EVENT_TYPES } from "../constants/constants";
 
 export class Controller {
-    constructor() {
+    constructor(model) {
+        this.model = model;
         this.calculator = new Calculator();
+    }
+
+    update(equation) {
+        const result = this.evaluate(equation);
+        this.model.setState(EVENT_TYPES.display, result);
     }
 
     evaluate(equation) {
@@ -11,7 +18,8 @@ export class Controller {
 
 }
 
-    // console.log('22*3=', calculator.evaluate('22*3'));
+
+// console.log('22*3=', calculator.evaluate('22*3'));
     // console.log('22/3=', calculator.evaluate('22/3'));
     // console.log('2*3+6=', calculator.evaluate('2*3+6'));
     // console.log('2*(3+6)=', calculator.evaluate('2*(3+6)'));

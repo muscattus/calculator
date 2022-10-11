@@ -1,34 +1,28 @@
-import { Controller } from './Controller';
-
 export class Model { //Model
 
     constructor() {
-        this.controller = new Controller();
         this.equation;
         this.result;
         this.observers = [];
     }
 
-    subscribe(listener) {
-        this.observers.push(listener);
+    subscribe(eventType, listener) {
+        this.observers.push({[eventType]: listener});
     }
 
-    unsubscribe(listener) {
-        this.observers = this.observers.filter(observer => observer !== listener);
+    unsubscribe(eventType) {
+        this.observers = this.observers.filter(observer => !Object.keys(observer).includes(eventType));
     }
 
-    notify(payload) {
-        this.observers.forEach( observer => observer.update(payload));
-    }
-    
-    setEquation(equationString) {
-        this.equation = equationString;
-        const result = this.controller.evaluate(equationString);
-        this.updateResult(result);
+    notifyListeners(eventType, payload) {
+        this.observers.forEach( observer => {
+            if(Object.keys(observer).includes(eventType)){
+                observer[eventType].update(payload);
+            }
+        });
     }
 
-    updateResult(result) {
-        this.result = result;
-        this.notify(result);
+    setState(eventType, payload) {
+        this.notifyListeners(eventType, payload);
     }
 }

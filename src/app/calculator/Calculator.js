@@ -82,6 +82,7 @@ export class Calculator {
             const result = contextToClose.calculate();
             return result; 
     }
+    
     evaluate(equation) {
         const equationArray = this.parse(equation);
         if (!this.validateEquation(equationArray)) {
