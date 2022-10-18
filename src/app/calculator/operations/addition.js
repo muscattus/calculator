@@ -10,4 +10,5 @@ export class Addition extends Operation {
     }
 
     static symbol = '+';
+    static priority = 1;
 }

@@ -9,4 +9,5 @@ export class Multiplication extends Operation {
         };
     }
     static symbol = '*';
+    static priority = 2;
 }

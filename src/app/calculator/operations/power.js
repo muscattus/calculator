@@ -10,4 +10,5 @@ export class Power extends Operation{
     }
 
     static symbol = '^';
+    static priority = 3;
 }

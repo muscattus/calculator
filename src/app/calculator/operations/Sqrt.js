@@ -11,4 +11,6 @@ export class SquareRoot extends Operation {
     }
 
     static symbol = 'sqrt';
+    static priority = 3;
+    static unary = true;
 }

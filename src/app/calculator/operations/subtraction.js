@@ -9,4 +9,5 @@ export class Subtraction extends Operation {
         };
     }
     static symbol = '-';
+    static priority = 1;
 }
