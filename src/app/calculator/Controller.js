@@ -13,7 +13,6 @@ export class Controller {
     }
 
     evaluate(equation) {
-        // return this.calculator.evaluate(equation);
         return this.calculator.evaluate(equation);
     }
 
