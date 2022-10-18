@@ -1,15 +1,16 @@
 import { operations} from "./operations/main";
-import { numberRegexp, negativeString, negNumberRegexp, numberPattern, parenthesesRegexp, minus, parentheses, negativePattern } from "../constants/constants";
+import { allNumbersRegexp, negativeString, negNumberRegexp, numberPattern, parenthesesRegexp, negativePattern,
+    minus, parentheses, errors }from "../constants/constants";
 
 export class Calculator {
     constructor() {
         this.operations = {};
         this.operations = Calculator.getOperations(operations);
         this.operators = Object.keys(this.operations);
-        this.operatorsRegexpPattern = this.getOperatorsRegexpString();
+        this.operatorsRegexpPattern = Calculator.getOperatorsRegexpString(this.operators);
         this.operatorsRegexp = new RegExp(this.operatorsRegexpPattern, 'g');
-        this.negativeRegexp = this.getNegativeRegexp();
-        this.validationRegexp = this.getValidationRegexp();
+        this.negativeRegexp = Calculator.getNegativeRegexp(this.operatorsRegexpPattern);
+        this.validationRegexp = Calculator.getValidationRegexp(this.operatorsRegexpPattern);
     }
 
     static getOperations = function(operations) {
@@ -20,29 +21,49 @@ export class Calculator {
         return calculatorOperations;
     };
 
-    getNegativeRegexp () {
-        const operatorsPattern = `(?<=${this.operatorsRegexpPattern})-(?=\\d+)`;
+    static getNegativeRegexp (operatorsRegexpPattern) {
+        const operatorsPattern = `(?<=${operatorsRegexpPattern})-(?=\\d+)`;
         const operatorsRegexp = new RegExp(operatorsPattern, 'g');
         return operatorsRegexp;
     }
 
-    replaceNegative(equation) {
-        let equationWithReplacedNegative =  equation.replaceAll(this.negativeRegexp, negativeString);
-        equationWithReplacedNegative =  equationWithReplacedNegative.replace(/^-/, negativeString);
-        return equationWithReplacedNegative;
+    static getOperatorsRegexpString(operators) {
+        const escapedOperators = operators.map(operator => {
+            if (operator.length === 1) {
+                return`\\${operator}`;
+            } else {
+                return operator
+            }
+        })
+        const operatorsString = `(${escapedOperators.join('|')})`;
+        return operatorsString;
+    }
+
+    static getValidationRegexp(operatorsRegexpPattern) {
+        const pattern = `^(${numberPattern}|${operatorsRegexpPattern}|\\(|\\))+$`;
+        const validationRegexp = new RegExp(pattern);
+        return validationRegexp
     }
 
     evaluate(equation) {
-        if (!this.validateEquation(equation)) {
-            return 'INVALID INPUT';
+        try {
+            this.validateEquation(equation);
         }
-        this.validateEquation(equation);
+        catch (error) {
+            return error;
+        }
         while (equation.match(/[()]/)) {
             equation = this.handleParentheses(equation);
         }
         return this.calculateNew(equation);
     }
     
+    replaceNegative(equation) {
+        let equationWithReplacedNegative =  equation.replaceAll(this.negativeRegexp, negativeString);
+        equationWithReplacedNegative =  equationWithReplacedNegative.replace(/^-/, negativeString);
+        return equationWithReplacedNegative;
+    }
+
     handleParentheses(equation) {
         let newEquation = equation;
         const partOfEquation = newEquation.match(parenthesesRegexp);
@@ -82,11 +103,11 @@ export class Calculator {
     }
 
     calculateOperation(operator, operationString) {
-        const operands = operationString.match(numberRegexp);
+        const operands = operationString.match(allNumbersRegexp);
         const operationFunc = this.operations[operator];
         const operation = new operationFunc();
         operands.forEach(element => {
-            let operand = negativePattern.test(element) ? element.substring(3) * -1 : element;
+            let operand = element.replace(negativePattern, minus);
             operation.addInput(operand);
         });
         const result = operation.calc(...operation.inputs);
@@ -101,25 +122,10 @@ export class Calculator {
         return equation.match(pattern)[0];
     }
 
-    getOperatorsRegexpString() {
-        const escapedOperators = this.operators.map(operator => {
-            if (operator.length === 1) {
-                return`\\${operator}`;
-            } else {
-                return operator
-            }
-        })
-        const operatorsString = `(${escapedOperators.join('|')})`;
-        return operatorsString;
-    }
-
-    getValidationRegexp() {
-        const pattern = `^(${numberPattern}|${this.operatorsRegexpPattern}|\\(|\\))+$`;
-        const validationRegexp = new RegExp(pattern);
-        return validationRegexp
-    }
     validateEquation(equation) {
-        return this.validationRegexp.test(equation) && this.validateParentheses(equation);
+        if (!this.validationRegexp.test(equation) || !this.validateParentheses(equation)) {
+            throw errors.invalidInput
+        }
     }
 
     validateParentheses(equationArray) {

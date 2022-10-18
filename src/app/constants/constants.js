@@ -1,7 +1,7 @@
 // export const numberRegexp = new RegExp(/^[-]?\d+(\.\d+)?$/);
 export const negativeString = 'neg';
 export const negativePattern = /^neg/;
-export const numberRegexp = new RegExp(/(neg)?[0-9\.]+/, 'g'); 
+export const allNumbersRegexp = new RegExp(/(neg)?[0-9\.]+/, 'g'); 
 export const parenthesesRegexp = new RegExp(/(?<=\()[^()]+(?=\))/g);
 export const negNumberRegexp = /^(neg)?[0-9\.]+$/;
 export const numberString = '^(neg)?[0-9\.]+$';
@@ -25,3 +25,7 @@ export const EVENT_TYPES = {
     calculate: 'calculate',
     display: 'displayResult'
 }
+
+export const errors ={
+    invalidInput: 'INVALID INPUT'
+};
