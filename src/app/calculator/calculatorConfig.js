@@ -1,5 +1,4 @@
-import { allNumbersRegexp, negativeString, negNumberRegexp, numberPattern, parenthesesRegexp, negativePattern,
-    minus, parentheses, errors } from "../constants/constants";
+import { numberPattern } from "../constants/constants";
 import { operations as allOperations } from "./operations/main";
 
 export let config;
