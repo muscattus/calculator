@@ -1,9 +1,11 @@
 // import { throws } from 'assert';
 import { Model } from './calculator/Model';
 import { View } from './calculator/View';
-import { Controller } from './calculator/Controller'
+import { Controller } from './calculator/Controller';
+import { prepareCalculator } from './calculator/calculatorConfig';
 
 function initPage() {
+    prepareCalculator();
     const model = new Model();
     const view = new View(model);
     const controller = new Controller(model);

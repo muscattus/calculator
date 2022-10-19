@@ -1,16 +1,16 @@
-import { Addition } from "./Addition";
-import { Subtraction } from "./Subtraction";
-import { Multiplication } from "./Multiplicatios";
-import { Power } from "./Power";
-import { SquareRoot } from "./Sqrt";
+import { addition } from "./addition";
+import { subtraction } from "./subtraction";
+import { multiplication } from "./multiplicatios";
+import { power } from "./power";
+import { squareRoot } from "./sqrt";
 
 
 
 export const operations = [
-    Addition,
-    Subtraction,
-    Multiplication,
-    Power,
-    SquareRoot
+    addition,
+    subtraction,
+    multiplication,
+    power,
+    squareRoot
 ];
 

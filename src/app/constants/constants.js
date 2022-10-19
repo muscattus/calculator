@@ -4,9 +4,9 @@ export const negativePattern = /^neg/;
 export const allNumbersRegexp = new RegExp(/(neg)?[0-9\.]+/, 'g'); 
 export const parenthesesRegexp = new RegExp(/(?<=\()[^()]+(?=\))/g);
 export const negNumberRegexp = /^(neg)?[0-9\.]+$/;
-export const numberString = '^(neg)?[0-9\.]+$';
 export const numberPattern = '(neg)?[0-9\.]+';
 export const minus = '-';
+
 export const parentheses = {
     open: '(',
     close: ')'

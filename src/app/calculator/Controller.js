@@ -1,10 +1,10 @@
-import { Calculator } from "./Calculator";
+import { evaluate } from "./Calculator";
 import { EVENT_TYPES } from "../constants/constants";
 
 export class Controller {
     constructor(model) {
         this.model = model;
-        this.calculator = new Calculator();
+        // this.calculator = new Calculator();
     }
 
     update(equation) {
@@ -13,7 +13,7 @@ export class Controller {
     }
 
     evaluate(equation) {
-        return this.calculator.evaluate(equation);
+        return evaluate(equation);
     }
 
 }

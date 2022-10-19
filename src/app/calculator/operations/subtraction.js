@@ -1,12 +1,7 @@
-import { Operation } from "./Operation";
-
-export class Subtraction extends Operation {
-    constructor() {
-        super();
-        this.calc = function(a, b) {
-            return +a - +b;
-        };
+export const subtraction = {
+    symbol: '-',
+    priority: 1,
+    calc: function(a, b) {
+        return +a - +b;
     }
-    static symbol = '-';
-    static priority = 1;
 }
