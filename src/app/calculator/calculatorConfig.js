@@ -1,16 +1,16 @@
 import { numberPattern } from "../constants/constants";
 import { operations as allOperations } from "./operations/main";
 
-export let config;
+export const config = setupCalculator();
 
-export function prepareCalculator() {
+function setupCalculator() {
     const operations = getOperations(allOperations);
     const operators = Object.keys(operations);
     const operatorsRegexpPattern = getOperatorsRegexpString(operators);
     const operatorsRegexp = new RegExp(operatorsRegexpPattern, 'g');
     const negativeRegexp = getNegativeRegexp(operatorsRegexpPattern);
     const validationRegexp = getValidationRegexp(operatorsRegexpPattern);
-    config = {
+    return {
         operations,
         operators,
         operatorsRegexpPattern,

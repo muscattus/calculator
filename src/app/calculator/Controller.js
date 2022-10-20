@@ -4,7 +4,6 @@ import { EVENT_TYPES } from "../constants/constants";
 export class Controller {
     constructor(model) {
         this.model = model;
-        // this.calculator = new Calculator();
     }
 
     update(equation) {
