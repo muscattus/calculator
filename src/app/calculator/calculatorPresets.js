@@ -1,24 +1,17 @@
-import { minus, numberPattern } from "../constants/constants";
+import { numberPattern } from "../constants/constants";
 import { operations as allOperations } from "./operations";
 
-export const config = setupCalculator();
-// const someObjext = {};
+export const calculatorPresets = {};
+
+setupCalculator();
 
 function setupCalculator() {
-    const operations = getOperations(allOperations);
-    const operators = Object.keys(operations);
-    const operatorsRegexpPattern = getOperatorsRegexpString(operators);
-    const operatorsRegexp = new RegExp(operatorsRegexpPattern, 'g');
-    const negativeRegexp = getNegativeRegexp(operatorsRegexpPattern);
-    const validationRegexp = getValidationRegexp(operatorsRegexpPattern);
-    return {
-        operations,
-        operators,
-        operatorsRegexpPattern,
-        operatorsRegexp,
-        negativeRegexp,
-        validationRegexp
-    }
+    calculatorPresets.operations = getOperations(allOperations);
+    calculatorPresets.operators = Object.keys(calculatorPresets.operations);
+    calculatorPresets.operatorsRegexpPattern = getOperatorsRegexpString(calculatorPresets.operators);
+    calculatorPresets.operatorsRegexp = new RegExp(calculatorPresets.operatorsRegexpPattern, 'g');
+    calculatorPresets.negativeRegexp = getNegativeRegexp(calculatorPresets.operatorsRegexpPattern);
+    calculatorPresets.validationRegexp = getValidationRegexp(calculatorPresets.operatorsRegexpPattern);
 }
 
 
