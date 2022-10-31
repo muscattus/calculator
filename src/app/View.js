@@ -1,4 +1,4 @@
-import { CODES, EVENT_TYPES } from "../constants/constants";
+import { CODES, EVENT_TYPES } from "./constants/constants";
 
 export class View {
 

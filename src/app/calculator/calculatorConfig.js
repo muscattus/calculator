@@ -43,7 +43,7 @@ function getOperatorsRegexpString(operators) {
 }
 
 function getNegativeRegexp (operatorsRegexpPattern) {
-    const operatorsPattern = `(?<=${operatorsRegexpPattern})-(?=\\d+)`;
+    const operatorsPattern = `((?<=${operatorsRegexpPattern})-(?=\\d+))|(^-)`;
     const operatorsRegexp = new RegExp(operatorsPattern, 'g');
     return operatorsRegexp;
 }

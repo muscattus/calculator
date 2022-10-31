@@ -1,6 +1,6 @@
-import { Model } from './calculator/Model';
-import { View } from './calculator/View';
-import { Controller } from './calculator/Controller';
+import { Model } from './Model';
+import { View } from './View';
+import { Controller } from './Controller';
 
 function initPage() {
     const model = new Model();

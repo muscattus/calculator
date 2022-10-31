@@ -1,5 +1,5 @@
-import { evaluate } from "./Calculator";
-import { EVENT_TYPES } from "../constants/constants";
+import { evaluate } from "./calculator/Calculator";
+import { EVENT_TYPES } from "./constants/constants";
 
 export class Controller {
     constructor(model) {
