@@ -19,9 +19,10 @@ export class View {
             this.displayInput(event);
         }));
         this.clear.addEventListener('click', () => this.clearInput());
-        document.addEventListener('keyup', (event) => this.keyboardHandle(event))
+        document.addEventListener('keyup', (event) => this.keyboardHandle(event));
     }
     
+
     createEquation() {
         const equation = this.input.value;
         this.model.setState(EVENT_TYPES.calculate, equation);

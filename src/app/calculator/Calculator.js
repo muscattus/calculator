@@ -3,18 +3,18 @@ import { allNumbersRegexp, negativeString, negNumberRegexp, numberPattern, paren
 import { config } from "./calculatorConfig";
 
 
-export function evaluate(equation) {
-        try {
-            validateEquation(equation);
-        }
-        catch (error) {
-            return error;
-        }
-        while (equation.match(/[()]/)) {
-            equation = handleParentheses(equation);
-        }
-        return calculate(equation);
+export function evaluate(equation) {    
+    try {
+        validateEquation(equation);
     }
+    catch (error) {
+        return error;
+    }
+    while (equation.match(/[()]/)) {
+        equation = handleParentheses(equation);
+    }
+    return calculate(equation);
+}
     
 function replaceNegative(equation) {
         let equationWithReplacedNegative =  equation.replaceAll(config.negativeRegexp, negativeString);
@@ -33,17 +33,17 @@ function handleParentheses(equation) {
     }
     
 function calculate(equation) {
-        equation = replaceNegative(equation);
-        if(negNumberRegexp.test(equation)){
-            return equation.replace(negativePattern, minus);
-        }
-        const allOperators = equation.match(config.operatorsRegexp);
-        const currentOperator = getCurrentOperator(allOperators);
-        const currentOperation = getCurrentOperation(currentOperator, equation);
-        const result = calculateOperation(currentOperator, currentOperation);
-        const newEquation = equation.replace(currentOperation, result);
-        return calculate(newEquation);
+    equation = replaceNegative(equation);
+    if(negNumberRegexp.test(equation)){
+        return equation.replace(negativePattern, minus);
     }
+    const allOperators = equation.match(config.operatorsRegexp);
+    const currentOperator = getCurrentOperator(allOperators);
+    const currentOperation = getCurrentOperation(currentOperator, equation);
+    const result = calculateOperation(currentOperator, currentOperation);
+    const newEquation = equation.replace(currentOperation, result);
+    return calculate(newEquation);
+}
     
 
 function getCurrentOperator(operators) {
@@ -79,10 +79,11 @@ function getCurrentOperation(operator, equation) {
     }
 
 function validateEquation(equation) {
-        if (!config.validationRegexp.test(equation) || !validateParentheses(equation)) {
-            throw errors.invalidInput
-        }
+    if (!validateOperators(equation) ||
+        !validateParentheses(equation)) {
+        throw errors.invalidInput
     }
+}
 
 function validateParentheses(equationArray) {
     let stack = [];
@@ -97,5 +98,12 @@ function validateParentheses(equationArray) {
     }
     return stack.length === 0;
 };
+
+function validateOperators(equation) {
+    if (!config.validationRegexp.test(equation)) {
+       return false;
+    }
+    return true;
+}
 
 

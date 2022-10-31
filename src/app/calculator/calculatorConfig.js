@@ -1,7 +1,8 @@
-import { numberPattern } from "../constants/constants";
+import { minus, numberPattern } from "../constants/constants";
 import { operations as allOperations } from "./operations/main";
 
 export const config = setupCalculator();
+// const someObjext = {};
 
 function setupCalculator() {
     const operations = getOperations(allOperations);
