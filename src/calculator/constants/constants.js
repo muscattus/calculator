@@ -10,6 +10,6 @@ export const minus = '-';
 
 
 export const errors ={
-    invalidInput: 'Invalid Input',
-    invalidParentheses: 'Check Parentheses'
+  invalidInput: 'Invalid Input',
+  invalidParentheses: 'Check Parentheses'
 };

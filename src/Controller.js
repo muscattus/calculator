@@ -3,27 +3,27 @@ import { ValidationError } from "./calculator/errors/errors";
 import { EVENT_TYPES } from "./constants/constants";
 
 export class Controller {
-    constructor(model) {
-        this.model = model;
-    }
+  constructor(model) {
+    this.model = model;
+  }
 
-    update(equation) {
-        try {
-            const result = this.evaluate(equation);
-            this.model.setState(EVENT_TYPES.display, result);
-        } catch (error) {
-            if (error instanceof ValidationError) {
-                this.model.setState(EVENT_TYPES.showError, error.message);
-            }
-            else {
-                this.model.setState(EVENT_TYPES.showError, 'try again');
-            }
-        }
+  update(equation) {
+    try {
+      const result = this.evaluate(equation);
+      this.model.setState(EVENT_TYPES.display, result);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        this.model.setState(EVENT_TYPES.showError, error.message);
+      }
+      else {
+        this.model.setState(EVENT_TYPES.showError, 'try again');
+      }
     }
+  }
 
-    evaluate(equation) {
-        return evaluate(equation);
-    }
+  evaluate(equation) {
+    return evaluate(equation);
+  }
 
 }
 
