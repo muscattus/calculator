@@ -16,6 +16,7 @@ main {
 
 #calculator,
 .numpad,
+.utility-buttons,
 .operations {
     display: grid;
     gap: 10px;
@@ -26,7 +27,7 @@ main {
     margin: 50px auto;
     padding: 40px;
     grid-template-columns: repeat(4, 60px);
-    grid-template-rows: 80px repeat(5, 60px);
+    grid-template-rows: 80px 60px minmax(0, max-content) repeat(4, 60px);
     border: 2px solid rgb(228, 248, 255);
     border-radius: 5px;
 }
@@ -65,16 +66,30 @@ main {
 
 .numpad{
     grid-column: 1 / -1;
-    grid-row: 3 / 6;
+    grid-row: 4 / 6;
     grid-template-columns: repeat(3, 60px);
     grid-template-rows: repeat(4, 60px);
 }
 
-.operations{
+
+.utility-buttons{
+    grid-column: 1 / -1;
+    grid-row: 2 / 3;
+    grid-template-columns: repeat(4, 60px);
+    grid-template-rows: 60px;
+}
+
+.additional-operations{
+    grid-column: 1 / -1;
+    grid-row: 3 / 4;
+    grid-auto-rows: 60px;
+    grid-template-columns: repeat(4, 60px);
+}
+.main-operations{
     grid-column: 4 / -1;
-    grid-row: 2 / -1;
+    grid-row: 4 / -1;
     grid-template-columns: 60px;
-    grid-template-rows: repeat(5, 60px);
+    grid-template-rows: repeat(4, 60px);
 }
 
 .button:hover{

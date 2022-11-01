@@ -1,48 +1,56 @@
 const addition = {
     symbol: '+',
+    operator: '+',
     priority: 1,
-    calc: function(a, b) {
+    calculate: function(a, b) {
         return +a + +b;
     }
 };
 
 const subtraction = {
     symbol: '-',
+    operator: '-',
     priority: 1,
-    calc: function(a, b) {
+    calculate: function(a, b) {
         return +a - +b;
     }
 };
 
 const division = {
-    symbol: '/',
+    symbol: '&#247;',
+    operator: '/',
     priority: 2,
-    calc: function(a, b) {
+    calculate: function(a, b) {
         return +a / +b;
     }
 };
 
 const multiplication = {
     symbol: '*',
+    operator: '*',
     priority: 2,
-    calc: function(a, b) {
+    calculate: function(a, b) {
         return +a * +b;
     }
 };
 
 const power = {
     symbol: '^',
+    operator: '^',
     priority: 3,
-    calc: function(a, b) {
+    additional: true,
+    calculate: function(a, b) {
         return Math.pow(a, b);
     }
 };
 
 const squareRoot = {
-    symbol: 'sqrt',
+    symbol: '&#8730;',
+    operator: 'sqrt',
     priority: 3,
     unary: true,
-    calc: function(a) {
+    additional: true,
+    calculate: function(a) {
        return Math.sqrt(+a);
     }
 };

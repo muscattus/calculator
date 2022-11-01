@@ -1,4 +1,5 @@
 import { evaluate } from "./calculator/Calculator";
+import { ValidationError } from "./calculator/errors/errors";
 import { EVENT_TYPES } from "./constants/constants";
 
 export class Controller {
@@ -7,8 +8,17 @@ export class Controller {
     }
 
     update(equation) {
-        const result = this.evaluate(equation);
-        this.model.setState(EVENT_TYPES.display, result);
+        try {
+            const result = this.evaluate(equation);
+            this.model.setState(EVENT_TYPES.display, result);
+        } catch (error) {
+            if (error instanceof ValidationError) {
+                this.model.setState(EVENT_TYPES.showError, error.message);
+            }
+            else {
+                this.model.setState(EVENT_TYPES.showError, 'try again');
+            }
+        }
     }
 
     evaluate(equation) {

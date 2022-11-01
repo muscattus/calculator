@@ -1,15 +1,12 @@
 import { allNumbersRegexp, negativeString, negNumberRegexp, numberPattern, parenthesesRegexp, negativePattern, parenthesesPattern,
-    minus, errors }from "../constants/constants";
+    minus,
+    errors}from "./constants/constants";
 import { calculatorPresets as presets } from "./calculatorPresets";
+import { ValidationError } from "./errors/errors";
 
 
 export function evaluate(equation) {    
-    try {
-        validateEquation(equation);
-    }
-    catch (error) {
-        return error;
-    }
+    validateEquation(equation);
     const result = handleParentheses(equation);
     return result
 }
@@ -29,8 +26,8 @@ function handleParentheses(equation) {
         const result = calculate(partOfEquation);
         newEquation = newEquation.replace(`(${partOfEquation})`, result);
         return handleParentheses(newEquation);
-    } catch (e) {
-        return 'invalid parentheses'
+    } catch {
+        throw new ValidationError(errors.invalidParentheses);
     }
 }
     
@@ -51,9 +48,9 @@ function calculate(equation) {
 function getCurrentOperator(operators) {
     let currentOperator = operators[0];
     for(let i = 1; i < operators.length; i++) {
-        const symbol = operators[i];
-        if(presets.operations[symbol].priority > presets.operations[currentOperator].priority) {
-            currentOperator = symbol;
+        const operator = operators[i];
+        if(presets.operations[operator].priority > presets.operations[currentOperator].priority) {
+            currentOperator = operator;
         } else {
             return currentOperator;
         }
@@ -68,7 +65,7 @@ function calculateOperation(operator, operationString) {
     operands = operands.map(operand => {
         return operand.replace(negativePattern, minus);
     });
-    const result = operation.calc(...operands);
+    const result = operation.calculate(...operands);
     return result;
 }
 
@@ -82,23 +79,9 @@ function getCurrentOperation(operator, equation) {
 
 function validateEquation(equation) {
     if (!validateOperators(equation)) {
-        throw errors.invalidInput
+        throw new ValidationError(errors.invalidInput);
     }
 }
-
-// function validateParentheses(equationArray) {
-//     let stack = [];
-//     for (let i = 0; i < equationArray.length; i++) {
-//         if (equationArray[i] === parentheses.close && stack[stack.length-1] === parentheses.open){
-//             stack.pop();
-//         } else {
-//             if (equationArray[i] === parentheses.open || equationArray[i] === parentheses.close) {
-//                 stack.push(equationArray[i]);
-//             }
-//         }
-//     }
-//     return stack.length === 0;
-// };
 
 function validateOperators(equation) {
     if (!presets.validationRegexp.test(equation)) {

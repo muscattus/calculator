@@ -1,4 +1,4 @@
-import { numberPattern } from "../constants/constants";
+import { numberPattern } from "./constants/constants";
 import { operations as allOperations } from "./operations";
 
 export const calculatorPresets = {};
@@ -18,7 +18,7 @@ function setupCalculator() {
 function getOperations(operations) {
     const calculatorOperations = {};
     operations.forEach(operation => {
-        calculatorOperations[operation.symbol] = operation;
+        calculatorOperations[operation.operator] = operation;
     })
     return calculatorOperations;
 };
