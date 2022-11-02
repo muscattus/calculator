@@ -11,5 +11,5 @@ export const minus = '-';
 
 export const errors ={
   invalidInput: 'Invalid Input',
-  invalidParentheses: 'Check Parentheses'
+  invalidParentheses: 'Check brackets'
 };
