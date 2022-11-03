@@ -1,6 +1,6 @@
-import { Model } from './Model';
-import { View } from './View';
-import { Controller } from './Controller';
+import { Model } from './mvc/Model';
+import { View } from './mvc/View';
+import { Controller } from './mvc/Controller';
 
 function initPage() {
   const model = new Model();

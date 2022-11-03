@@ -1,4 +1,4 @@
-import { numberPattern } from "./constants/constants";
+import { regexpStrings } from "./constants/constants";
 import { operations as allOperations } from "./operations";
 
 export const calculatorPresets = {};
@@ -8,41 +8,36 @@ setupCalculator();
 function setupCalculator() {
   calculatorPresets.operations = getOperations(allOperations);
   calculatorPresets.operators = Object.keys(calculatorPresets.operations);
-  calculatorPresets.operatorsRegexpPattern = getOperatorsRegexpString(calculatorPresets.operators);
-  calculatorPresets.operatorsRegexp = new RegExp(calculatorPresets.operatorsRegexpPattern, 'g');
-  calculatorPresets.negativeRegexp = getNegativeRegexp(calculatorPresets.operatorsRegexpPattern);
-  calculatorPresets.validationRegexp = getValidationRegexp(calculatorPresets.operatorsRegexpPattern);
+  const operatorsPattern = getOperatorsString(calculatorPresets.operators);
+  calculatorPresets.operatorsRegexp = new RegExp(operatorsPattern, 'g');
+  calculatorPresets.negativeRegexp = getNegativeRegexp(operatorsPattern);
+  calculatorPresets.validationRegexp = getValidationRegexp(operatorsPattern);
 }
 
 
 function getOperations(operations) {
-  const calculatorOperations = {};
-  operations.forEach(operation => {
+  return operations.reduce((calculatorOperations, operation) => {
     calculatorOperations[operation.operator] = operation;
-  })
-  return calculatorOperations;
+    return calculatorOperations;
+  }, {});
 };
 
-function getOperatorsRegexpString(operators) {
+function getOperatorsString(operators) {
   const escapedOperators = operators.map(operator => {
-    if (operator.length === 1) {
-      return`\\${operator}`;
-    } else {
-      return operator
-    }
+    return operator.length === 1 ? `\\${operator}` : operator
   })
   const operatorsString = `(${escapedOperators.join('|')})`;
   return operatorsString;
 }
 
-function getNegativeRegexp (operatorsRegexpPattern) {
-  const operatorsPattern = `((?<=${operatorsRegexpPattern})-(?=\\d+))|(^-)`;
+function getNegativeRegexp (operators) {
+  const operatorsPattern = `((?<=${operators})-(?=\\d+))|(^-)`;
   const operatorsRegexp = new RegExp(operatorsPattern, 'g');
   return operatorsRegexp;
 }
 
 function getValidationRegexp(operatorsRegexpPattern) {
-  const pattern = `^(${numberPattern}|${operatorsRegexpPattern}|\\(|\\))+$`;
+  const pattern = `^(${regexpStrings.number}|${operatorsRegexpPattern}|\\(|\\))+$`;
   const validationRegexp = new RegExp(pattern);
   return validationRegexp
 }

@@ -1,5 +1,5 @@
-import { CODES, EVENT_TYPES } from "./constants/constants";
-import { operations } from "./calculator/operations";
+import { CODES, EVENT_TYPES, ERROR_MESSAGES } from "./constants/constants";
+import { operations } from "../calculator/operations";
 
 export class View {
 
@@ -58,6 +58,9 @@ export class View {
   displayInput(event) {
     const target = event.currentTarget;
     const newInput = target.dataset.val;
+    if (this.checkErrorInInput()) {
+      this.input.value = '';
+    }
     this.input.value += newInput;
     this.input.focus();
   }
@@ -66,6 +69,11 @@ export class View {
     this.output.textContent = this.input.value;
     this.input.value = result;
     this.input.focus();
+  }
+
+  checkErrorInInput() {
+    const errorMessages = Object.values(ERROR_MESSAGES);
+    return errorMessages.some(message => this.input.value.match(message));
   }
   
   update(result) {

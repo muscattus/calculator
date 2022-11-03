@@ -1,4 +1,4 @@
-export class Model { //Model
+export class Model {
   constructor() {
     this.equation;
     this.result;

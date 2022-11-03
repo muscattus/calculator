@@ -1,6 +1,6 @@
-import { evaluate } from "./calculator/Calculator";
-import { ValidationError } from "./calculator/errors/errors";
-import { EVENT_TYPES } from "./constants/constants";
+import { evaluate } from "../calculator";
+import { ValidationError } from "../calculator/errors/ValidationError";
+import { EVENT_TYPES, ERROR_MESSAGES } from "./constants/constants";
 
 export class Controller {
   constructor(model) {
@@ -13,10 +13,10 @@ export class Controller {
       this.model.setState(EVENT_TYPES.display, result);
     } catch (error) {
       if (error instanceof ValidationError) {
-        this.model.setState(EVENT_TYPES.showError, error.message);
+        this.model.setState(EVENT_TYPES.showError, ERROR_MESSAGES.validationError);
       }
       else {
-        this.model.setState(EVENT_TYPES.showError, 'try again');
+        this.model.setState(EVENT_TYPES.showError, ERROR_MESSAGES.generalError);
       }
     }
   }
