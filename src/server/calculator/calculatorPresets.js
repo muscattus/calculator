@@ -1,7 +1,7 @@
-import { regexpStrings } from "./constants/constants";
-import { operations as allOperations } from "./operations";
+const { regexpStrings } = require("./constants/constants");
+const allOperations = require("./operations/index");
 
-export const calculatorPresets = {};
+const calculatorPresets = {};
 
 setupCalculator();
 
@@ -41,3 +41,5 @@ function getValidationRegexp(operatorsRegexpPattern) {
   const validationRegexp = new RegExp(pattern);
   return validationRegexp
 }
+
+module.exports = calculatorPresets;

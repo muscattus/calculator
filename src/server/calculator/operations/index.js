@@ -55,7 +55,7 @@ const squareRoot = {
   }
 };
 
-export const operations = [
+const operations = [
   addition,
   subtraction,
   multiplication,
@@ -64,3 +64,4 @@ export const operations = [
   division
 ];
 
+module.exports = operations;

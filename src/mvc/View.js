@@ -1,5 +1,5 @@
-import { CODES, EVENT_TYPES, ERROR_MESSAGES } from "./constants/constants";
-import { operations } from "../calculator/operations";
+import { CODES, EVENT_TYPES, ERROR_MESSAGES } from "./constants/constants.js";
+// import { operations } from "../calculator/operations";
 
 export class View {
 
@@ -27,7 +27,8 @@ export class View {
     document.addEventListener('keyup', (event) => this.keyboardHandle(event));
   }
   
-  addOperationsButtons() {
+  async addOperationsButtons() {
+    const operations = await getOperations();
     const operationsButtons = new DocumentFragment();
     operations.forEach(operation => {
       if(operation.additional) {
@@ -40,7 +41,8 @@ export class View {
     })
     this.additionaOperations.append(operationsButtons);
   }
-
+  
+  
   createEquation() {
     const equation = this.input.value;
     this.model.setState(EVENT_TYPES.calculate, equation);
@@ -88,4 +90,11 @@ export class View {
   deleteLastChar() {
     this.input.value = this.input.value.slice(0,-1);
   }
+}
+
+async function getOperations() {
+  const response = await fetch('http://localhost:3500/calculator/operations');
+  // console.log(operations);
+  const operations = await response.json();
+  return JSON.parse(operations);
 }

@@ -1,4 +1,4 @@
-export const CODES = {
+const CODES = {
   return: '13',
   backspace: '08',
   zero: 48,
@@ -7,13 +7,19 @@ export const CODES = {
   escape: 27
 }
 
-export const EVENT_TYPES = {
+const EVENT_TYPES = {
   calculate: 'calculate',
   display: 'displayResult',
   showError: 'showError'
 }
 
-export const ERROR_MESSAGES = {
+const ERROR_MESSAGES = {
   validationError: 'Invalid input',
   generalError: 'Error'
+}
+
+module.exports = {
+  CODES,
+  EVENT_TYPES,
+  ERROR_MESSAGES
 }

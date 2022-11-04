@@ -1,17 +1,23 @@
-export const regexpPatterns = {
+const regexpPatterns = {
   negative: /^neg/,
   negNumber: /^(neg)?[0-9\.]+$/,
   leadingNegative: /^-/,
   brackets: /[()]/
 }
 
-export const regexpStrings = {
+const regexpStrings = {
   negative: 'neg',
   number: '(neg)?[0-9\.]+',
   minus: '-'
 }
 
-export const regexp = {
+const regexp = {
   allNumbers: new RegExp(/(neg)?[0-9\.]+/, 'g'),
   brackets: new RegExp(/(?<=\()[^()]+(?=\))/)
+}
+
+module.exports = {
+  regexpPatterns,
+  regexpStrings,
+  regexp
 }

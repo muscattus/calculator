@@ -1,53 +1,40 @@
-import { evaluate } from "../calculator";
-import { ValidationError } from "../calculator/errors/ValidationError";
-import { EVENT_TYPES, ERROR_MESSAGES } from "./constants/constants";
+// import { evaluate } from "../calculator";
+// import { ValidationError } from "../calculator/errors/ValidationError";
+import { EVENT_TYPES, ERROR_MESSAGES } from "./constants/constants.js";
+import { fetchData } from "../helpers/fetch-data.js";
 
 export class Controller {
   constructor(model) {
     this.model = model;
   }
 
-  update(equation) {
+  async update(equation) {
     try {
-      const result = this.evaluate(equation);
+      const result = await this.evaluate(equation);
       this.model.setState(EVENT_TYPES.display, result);
     } catch (error) {
-      if (error instanceof ValidationError) {
-        this.model.setState(EVENT_TYPES.showError, ERROR_MESSAGES.validationError);
-      }
-      else {
+      // if (error instanceof ValidationError) {
+      //   this.model.setState(EVENT_TYPES.showError, ERROR_MESSAGES.validationError);
+      // }
+      // else {
         this.model.setState(EVENT_TYPES.showError, ERROR_MESSAGES.generalError);
-      }
+      // }
     }
   }
 
-  evaluate(equation) {
-    return evaluate(equation);
+  async evaluate(equation) {
+    // const resp = await fetchData('http://localhost:3500/calculator/evaluate', {
+    const resp = await fetchData( 
+    'POST',
+    {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    JSON.stringify({eq:equation}));
+    console.log(resp);
+    // return resp.result;
+    // const data = await resp.json();
+    return resp.result;
   }
 
 }
-
-
-// console.log('22*3=', calculator.evaluate('22*3'));
-    // console.log('22/3=', calculator.evaluate('22/3'));
-    // console.log('2*3+6=', calculator.evaluate('2*3+6')); 12
-    // console.log('2*(3+6)=', calculator.evaluate('2*(3+6)')); 18
-    // console.log('(3+6)=', calculator.evaluate('(3+6)')); 9
-    // console.log('(13+sqrt16=', calculator.evaluate('13+sqrt16)')); 17
-    // console.log('(13+8)*sqrt16=', calculator.evaluate('(13+8)*sqrt16'));  84
-    // console.log('(3+6)+1=', calculator.evaluate('(3+6)+1')); 10
-    // console.log('(30-22)*2=', calculator.evaluate('(30-22)*2')); 16  
-    // console.log('3+4*(2+6)=', calculator.evaluate('3+4*(2+6)')); 35
-    // console.log('(3+4)*(2+6)=', calculator.evaluate('(3+4)*(2+6)')); 56
-    // console.log('(3+4)*(2+6)*(5+5)=', calculator.evaluate('(3+4)*(2+6)*(5+5)')); 560
-    // console.log('11*5-3^2=', calculator.evaluate('11*5-3^2')); 46
-    // console.log('11*(5-3)^2=', calculator.evaluate('11*(5-3)^2')); 44
-    // console.log('1*3+6+3-4^2=', calculator.evaluate('1*3+6+3-4^2')); -4
-    //2+4*2^3 34
-    //4*(3+2*(7-5)) 28
-    //-2+17 15
-    //17+-2 15
-    //17--5 22
-    //3*(-4) -12
-    //-5*-2 10
-    //5*(-3+7) 20

@@ -1,8 +1,13 @@
-import { regexpPatterns as rePatterns, regexpStrings as reStrings, regexp as re}from "./constants/constants";
-import { calculatorPresets as presets } from "./calculatorPresets";
-import { ValidationError } from "./errors/ValidationError";
-import { errorMessages as errors } from "./errors/errorMessages";
-import { replaceNegative, getExpression, validateEquation } from "./helpers/helpers";
+// import { regexpPatterns as rePatterns, regexpStrings as reStrings, regexp as re}from "./constants/constants.js";
+const constants = require("./constants/constants");
+const rePatterns = constants.regexpPatterns;
+const reStrings = constants.regexpStrings;
+const re = constants.regexp;
+const presets = require("./calculatorPresets");
+const ValidationError = require("./errors/ValidationError");
+const errors = require("./errors/errorMessages");
+const { replaceNegative, getExpression, validateEquation } = require("./helpers/helpers");
+// import { replaceNegative, getExpression, validateEquation } from "./helpers/helpers.js";
 
 /**
  * Validates and executes the equation.
@@ -10,7 +15,8 @@ import { replaceNegative, getExpression, validateEquation } from "./helpers/help
  * @param {string} equation string
  * @returns {string} calculated value in string format
  */
-export function evaluate(equation) {    
+function evaluate(equation) {   
+  console.log('EQ', equation); 
   if (!validateEquation(equation)){
     throw new ValidationError(errors.invalidInput);
   }
@@ -92,3 +98,4 @@ function calculateExpression(operator, expression) {
 }
 
 
+module.exports = evaluate;

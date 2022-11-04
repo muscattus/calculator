@@ -1,5 +1,7 @@
-import {regexpStrings} from '../constants/constants';
-import { calculatorPresets as presets } from '../calculatorPresets';
+const {regexpStrings} = require('../constants/constants');
+// import {regexpStrings} from '../constants/constants.js';
+const presets = require('../calculatorPresets');
+// import { calculatorPresets as presets } from '../calculatorPresets.js';
 
 /**
  * Replaces all '-' (minus) signs for negative numbers with 'neg' string so
@@ -8,7 +10,7 @@ import { calculatorPresets as presets } from '../calculatorPresets';
  * @param {string} equation string
  * @returns {string} equation string with replaced signs
  */
-export function replaceNegative(equation) {
+function replaceNegative(equation) {
   const equationWithReplacedNegative =  equation.replaceAll(presets.negativeRegexp, regexpStrings.negative);
   return equationWithReplacedNegative;
 }
@@ -21,11 +23,11 @@ export function replaceNegative(equation) {
  * @param {string} the whole equation 
  * @returns {string} statement in string format
  */
-export function getExpression(operator, equation) {
+function getExpression(operator, equation) {
   const escOperator = operator.length > 1 ? operator : `\\${operator}`;
   const expressionPattern = presets.operations[operator].unary ?
-      `${escOperator}${regexpStrings.number}` :
-      `${regexpStrings.number}${escOperator}${regexpStrings.number}`;
+  `${escOperator}${regexpStrings.number}` :
+  `${regexpStrings.number}${escOperator}${regexpStrings.number}`;
   return equation.match(expressionPattern)[0];
 }
 
@@ -36,6 +38,12 @@ export function getExpression(operator, equation) {
  * @throws {ValidationError} if string is not valid
  * @returns {boolean} If string is valid
  */
-export function validateEquation(equation) {
+function validateEquation(equation) {
   return presets.validationRegexp.test(equation)
+}
+
+module.exports = {
+  getExpression,
+  validateEquation,
+  replaceNegative
 }

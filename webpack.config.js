@@ -1,5 +1,8 @@
 const path = require('path');
+// import path from 'path';
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// import HtmlWebpackPlugin from 'html-webpack-plugin';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
