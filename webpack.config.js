@@ -12,19 +12,19 @@ module.exports = {
     filename: 'bundle.js',
   },
   mode: 'development',
-  // resolve: {
-  //   extensions: ['.ts', '.tsx', '.js'],
-  // },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
   devServer: {
     compress: true,
     port: 3200,
   },
   module: {
     rules: [
-      // {
-      //   test: /\.tsx?$/,
-      //   loader: 'ts-loader',
-      // },
+      {
+        test: /\.ts?$/,
+        loader: 'ts-loader',
+      },
       {
         test: /\.(sa|sc|c)ss$/,
         use: [

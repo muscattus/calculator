@@ -8,6 +8,7 @@ const ValidationError = require("./errors/ValidationError");
 const errors = require("./errors/errorMessages");
 const { replaceNegative, getExpression, validateEquation } = require("./helpers/helpers");
 // import { replaceNegative, getExpression, validateEquation } from "./helpers/helpers.js";
+// const test = require('./test.ts');
 
 /**
  * Validates and executes the equation.
@@ -15,8 +16,7 @@ const { replaceNegative, getExpression, validateEquation } = require("./helpers/
  * @param {string} equation string
  * @returns {string} calculated value in string format
  */
-function evaluate(equation) {   
-  console.log('EQ', equation); 
+function evaluate(equation) {    
   if (!validateEquation(equation)){
     throw new ValidationError(errors.invalidInput);
   }

@@ -1,11 +1,13 @@
-import { Model } from './mvc/Model.js';
+import { Model } from './mvc/Model';
 import { View } from './mvc/View.js';
 import { Controller } from './mvc/Controller.js';
+import { CalcApi } from './api/CalcApi';
 
-function initPage() {
+function initPage(){
+  const api = new CalcApi();
   const model = new Model();
-  const view = new View(model);
-  const controller = new Controller(model);
+  const view = new View(model, api);
+  const controller = new Controller(model, api);
   model.subscribe('displayResult', view);
   model.subscribe('showError', view);
   model.subscribe('calculate', controller);

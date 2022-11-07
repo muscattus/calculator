@@ -1,24 +1,24 @@
 import { CODES, EVENT_TYPES, ERROR_MESSAGES } from "./constants/constants.js";
-// import { operations } from "../calculator/operations";
-
 export class View {
 
-  constructor(model) {
+  constructor(model, api) {
     this.model = model;
+    this.api = api;
+    this.additionaOperations = document.querySelector('#additional-operations');
+    this.addOperationsButtons();
     this.clear = document.querySelector('#clear');
     this.backspace = document.querySelector('#backspace');
-    this.additionaOperations = document.querySelector('#additional-operations');
     this.equals = document.querySelector('#equals');
     this.input = document.querySelector('#input');
     this.output = document.querySelector('#output');
-    this.addOperationsButtons();
     this.inputButtons = document.querySelectorAll('.button-input');
-    this.asignEventListeners();
     this.input.focus();
+    this.asignEventListeners();
   }
 
   asignEventListeners(){
     this.equals.addEventListener('click', () => this.createEquation());
+    // const inputButtons = document.querySelectorAll('.button-input');
     this.inputButtons.forEach(button => button.addEventListener('click', (event) => {
         this.displayInput(event);
     }));
@@ -28,7 +28,7 @@ export class View {
   }
   
   async addOperationsButtons() {
-    const operations = await getOperations();
+    const operations = await getOperations(this.api);
     const operationsButtons = new DocumentFragment();
     operations.forEach(operation => {
       if(operation.additional) {
@@ -37,9 +37,12 @@ export class View {
         button.dataset.val = operation.operator;
         button.innerHTML = operation.symbol;
         operationsButtons.append(button);
+        button.addEventListener('click', (event) => {
+          this.displayInput(event)})
       }
     })
     this.additionaOperations.append(operationsButtons);
+    // this.asignEventListeners();
   }
   
   
@@ -92,9 +95,15 @@ export class View {
   }
 }
 
-async function getOperations() {
+async function getOperations(api) {
+  // console.log(typeof this.api);
+  // console.log(this);
+  // const operations = await api.getOperations(); 
+  // console.log(result);
   const response = await fetch('http://localhost:3500/calculator/operations');
-  // console.log(operations);
+  // // console.log(operations);
   const operations = await response.json();
+  // console.log(operations);
+  // return operations;
   return JSON.parse(operations);
 }

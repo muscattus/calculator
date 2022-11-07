@@ -1,11 +1,13 @@
 // import { evaluate } from "../calculator";
 // import { ValidationError } from "../calculator/errors/ValidationError";
 import { EVENT_TYPES, ERROR_MESSAGES } from "./constants/constants.js";
-import { fetchData } from "../helpers/fetch-data.js";
+import { fetchData } from "../helpers/fetch-data.ts";
+// import { calcApi as api } from '../api/calc-api.ts';
 
 export class Controller {
-  constructor(model) {
+  constructor(model, api) {
     this.model = model;
+    this.api = api;
   }
 
   async update(equation) {
@@ -13,28 +15,18 @@ export class Controller {
       const result = await this.evaluate(equation);
       this.model.setState(EVENT_TYPES.display, result);
     } catch (error) {
-      // if (error instanceof ValidationError) {
-      //   this.model.setState(EVENT_TYPES.showError, ERROR_MESSAGES.validationError);
-      // }
-      // else {
+      if (error instanceof ValidationError) {
+        this.model.setState(EVENT_TYPES.showError, ERROR_MESSAGES.validationError);
+      }
+      else {
         this.model.setState(EVENT_TYPES.showError, ERROR_MESSAGES.generalError);
-      // }
+      }
     }
   }
 
   async evaluate(equation) {
-    // const resp = await fetchData('http://localhost:3500/calculator/evaluate', {
-    const resp = await fetchData( 
-    'POST',
-    {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    JSON.stringify({eq:equation}));
-    console.log(resp);
-    // return resp.result;
-    // const data = await resp.json();
-    return resp.result;
+    const result = await this.api.evaluateEquation(equation); 
+    return result;
   }
 
 }
