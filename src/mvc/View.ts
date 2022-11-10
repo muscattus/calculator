@@ -10,7 +10,7 @@ export class View {
   equals: HTMLElement | null;
   input: HTMLInputElement | null;
   output: HTMLElement | null;
-  inputButtons: NodeListOf<Element>;
+  keypad: HTMLElement | null;
   constructor(private model: Model, private api: CalculatorApi) {
     this.model = model;
     this.api = api;
@@ -21,19 +21,15 @@ export class View {
     this.equals = document.querySelector('#equals');
     this.input = document.querySelector('#input');
     this.output = document.querySelector('#output');
-    this.inputButtons = document.querySelectorAll('.button-input');
+    this.keypad = document.getElementById('keypad');
     this.input!.focus();
     this.asignEventListeners();
   }
 
   asignEventListeners(){
+    const keypad = document.getElementById('keypad');
+    keypad?.addEventListener( 'click', (event) =>  this.displayInput(event));
     this.equals!.addEventListener('click', () => this.createEquation());
-    this.inputButtons.forEach(button => button.addEventListener('click', (event) => {
-      if (!(event instanceof MouseEvent)) {
-        return;
-      }  
-      this.displayInput(event);
-    }));
     this.clear!.addEventListener('click', () => this.clearInput());
     this.backspace!.addEventListener('click', () => this.deleteLastChar());
     document.addEventListener('keyup', (event) => this.keyboardHandle(event));
@@ -49,12 +45,9 @@ export class View {
         button.dataset.val = operation.operator;
         button.innerHTML = operation.symbol;
         operationsButtons.append(button);
-        button.addEventListener('click', (event) => {
-          this.displayInput(event)})
       }
     })
     this.additionalOperations!.append(operationsButtons);
-    // this.asignEventListeners();
   }
   
   
@@ -75,16 +68,18 @@ export class View {
   }
 
   displayInput(event: MouseEvent) {
-    const target = event.currentTarget;
-    if ( !(target instanceof HTMLElement)) {
+    const target = event.target;
+    if(!(target instanceof HTMLElement)){
       return;
     }
     const newInput = target!.dataset.val;
-    if (this.checkErrorInInput()) {
-      this.input!.value = '';
+    if(newInput) {
+      if (this.checkErrorInInput()) {
+        this.input!.value = '';
+      }
+      this.input!.value += newInput;
+      this.input!.focus();
     }
-    this.input!.value += newInput;
-    this.input!.focus();
   }
 
   displayResult(result: string) {
