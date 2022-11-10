@@ -1,6 +1,6 @@
 import { Model } from './mvc/Model';
-import { View } from './mvc/View.js';
-import { Controller } from './mvc/Controller.js';
+import { View } from './mvc/View';
+import { Controller } from './mvc/Controller';
 import { CalculatorApi } from './api/CalculatorApi';
 
 function initPage(){
