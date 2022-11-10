@@ -18,7 +18,6 @@ export class View {
 
   asignEventListeners(){
     this.equals.addEventListener('click', () => this.createEquation());
-    // const inputButtons = document.querySelectorAll('.button-input');
     this.inputButtons.forEach(button => button.addEventListener('click', (event) => {
         this.displayInput(event);
     }));
@@ -96,14 +95,7 @@ export class View {
 }
 
 async function getOperations(api) {
-  // console.log(typeof this.api);
-  // console.log(this);
-  // const operations = await api.getOperations(); 
-  // console.log(result);
   const response = await fetch('http://localhost:3500/calculator/operations');
-  // // console.log(operations);
   const operations = await response.json();
-  // console.log(operations);
-  // return operations;
   return JSON.parse(operations);
 }

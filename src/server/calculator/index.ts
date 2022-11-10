@@ -1,17 +1,8 @@
 import { regexpPatterns as rePatterns, regexpStrings as reStrings, regexp as re}from "./constants/constants";
-// const constants = require("./constants/constants");
-// const rePatterns = constants.regexpPatterns;
-// const reStrings = constants.regexpStrings;
-// const re = constants.regexp;
-// const presets = require("./calculatorPresets");
 import { calculatorPresets as presets  } from "./calculatorPresets";
-// const ValidationError = require("./errors/ValidationError");
 import { ValidationError } from './errors/ValidationError';
-// const errors = require("./errors/errorMessages");
 import { errorMessages as errors } from './errors/errorMessages';
-// const { replaceNegative, getExpression, validateEquation } = require("./helpers/helpers");
 import { replaceNegative, getExpression, validateEquation } from "./helpers/helpers";
-// const test = require('./test.ts');
 
 /**
  * Validates and executes the equation.
@@ -100,12 +91,3 @@ function calculateExpression(operator: string, expression: string): string {
   const calculationResult = operation.calculate(...operands);
   return calculationResult.toString();
 }
-
-
-// function evaluate(equation) {
-//   console.log(equation);
-//   return '4';
-// }
-
-// export = {};
-// module.exports = evaluate;

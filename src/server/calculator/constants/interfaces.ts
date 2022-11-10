@@ -5,7 +5,6 @@ export interface DefaultOperation {
   unary?: boolean,
   additional?: boolean,
   calculate(...operands: string[]): number
-  // calculate(a: string, b?: string): number
 }
 
 export interface Operations {
@@ -20,8 +19,3 @@ export interface CalculatorPresets {
   negativeRegexp: RegExp,
   validationRegexp: RegExp
 }
-
-// module.exports = {
-//   DefaultOperation,
-//   Operation
-// }

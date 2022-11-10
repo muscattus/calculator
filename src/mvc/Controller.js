@@ -1,8 +1,4 @@
-// import { evaluate } from "../calculator";
-// import { ValidationError } from "../calculator/errors/ValidationError";
 import { EVENT_TYPES, ERROR_MESSAGES } from "./constants/constants.js";
-import { fetchData } from "../helpers/fetch-data.ts";
-// import { calcApi as api } from '../api/calc-api.ts';
 
 export class Controller {
   constructor(model, api) {

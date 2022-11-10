@@ -4,7 +4,6 @@ const addition = {
   priority: 1,
   calculate: function(...operands: string[] ) {
     return +operands[0] + +operands[1];
-    // return +a + +b;
   }
 };
 

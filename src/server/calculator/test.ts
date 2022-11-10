@@ -3,4 +3,3 @@ function test(a: string): string {
 }
 
 console.log(test('awe'));
-// module.exports = test;

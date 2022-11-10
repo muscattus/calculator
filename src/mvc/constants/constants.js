@@ -17,9 +17,3 @@ export const ERROR_MESSAGES = {
   validationError: 'Invalid input',
   generalError: 'Error'
 }
-
-// export default {
-//   CODES,
-//   EVENT_TYPES,
-//   ERROR_MESSAGES
-// }

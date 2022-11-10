@@ -1,6 +1,4 @@
-// const {regexpStrings} = require('../constants/constants');
 import {regexpStrings} from '../constants/constants';
-// const presets = require('../calculatorPresets');
 import { calculatorPresets as presets } from '../calculatorPresets';
 
 /**
@@ -41,9 +39,3 @@ export function getExpression(operator: string, equation: string): string {
 export function validateEquation(equation: string): boolean {
   return presets.validationRegexp.test(equation)
 }
-
-// export {
-//   getExpression,
-//   validateEquation,
-//   replaceNegative
-// }

@@ -1,8 +1,6 @@
-// const { regexpStrings } = require("./constants/constants");
 import {regexpStrings}  from './constants/constants';
-// const allOperations = require("./operations/index");
 import { operations as allOperations} from './operations/index';
-import {Operations, DefaultOperation, CalculatorPresets } from "./constants/interfaces";
+import {Operations, DefaultOperation } from "./constants/interfaces";
 
 // let calculatorPresets: CalculatorPresets;
 const calculatorPresets: any = {};
@@ -48,5 +46,3 @@ function getValidationRegexp(operatorsRegexpPattern: string): RegExp {
 }
 
 export {calculatorPresets};
-// module.exports = calculatorPresets;
-// export {};

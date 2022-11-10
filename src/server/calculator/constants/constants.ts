@@ -15,9 +15,3 @@ export const regexp = {
   allNumbers: new RegExp(/(neg)?[0-9\.]+/, 'g'),
   brackets: new RegExp(/(?<=\()[^()]+(?=\))/)
 }
-
-// module.exports = {
-//   regexpPatterns,
-//   regexpStrings,
-//   regexp
-// }
