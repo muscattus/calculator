@@ -1,7 +1,7 @@
 import { fetchData } from "../helpers/fetch-data";
 import { BASE_URL } from "./constants";
 
-export class CalcApi {
+export class CalculatorApi {
   headers;
 
   constructor() {

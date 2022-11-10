@@ -95,7 +95,6 @@ export class View {
 }
 
 async function getOperations(api) {
-  const response = await fetch('http://localhost:3500/calculator/operations');
-  const operations = await response.json();
-  return JSON.parse(operations);
+  const response = await api.getOperations();
+  return response;
 }

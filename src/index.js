@@ -1,10 +1,10 @@
 import { Model } from './mvc/Model';
 import { View } from './mvc/View.js';
 import { Controller } from './mvc/Controller.js';
-import { CalcApi } from './api/CalcApi';
+import { CalculatorApi } from './api/CalculatorApi';
 
 function initPage(){
-  const api = new CalcApi();
+  const api = new CalculatorApi();
   const model = new Model();
   const view = new View(model, api);
   const controller = new Controller(model, api);
