@@ -1,13 +1,16 @@
-// import { regexpPatterns as rePatterns, regexpStrings as reStrings, regexp as re}from "./constants/constants.js";
-const constants = require("./constants/constants");
-const rePatterns = constants.regexpPatterns;
-const reStrings = constants.regexpStrings;
-const re = constants.regexp;
-const presets = require("./calculatorPresets");
-const ValidationError = require("./errors/ValidationError");
-const errors = require("./errors/errorMessages");
-const { replaceNegative, getExpression, validateEquation } = require("./helpers/helpers");
-// import { replaceNegative, getExpression, validateEquation } from "./helpers/helpers.js";
+import { regexpPatterns as rePatterns, regexpStrings as reStrings, regexp as re}from "./constants/constants";
+// const constants = require("./constants/constants");
+// const rePatterns = constants.regexpPatterns;
+// const reStrings = constants.regexpStrings;
+// const re = constants.regexp;
+// const presets = require("./calculatorPresets");
+import { calculatorPresets as presets  } from "./calculatorPresets";
+// const ValidationError = require("./errors/ValidationError");
+import { ValidationError } from './errors/ValidationError';
+// const errors = require("./errors/errorMessages");
+import { errorMessages as errors } from './errors/errorMessages';
+// const { replaceNegative, getExpression, validateEquation } = require("./helpers/helpers");
+import { replaceNegative, getExpression, validateEquation } from "./helpers/helpers";
 // const test = require('./test.ts');
 
 /**
@@ -16,7 +19,7 @@ const { replaceNegative, getExpression, validateEquation } = require("./helpers/
  * @param {string} equation string
  * @returns {string} calculated value in string format
  */
-function evaluate(equation) {    
+export function evaluate(equation: string): string {    
   if (!validateEquation(equation)){
     throw new ValidationError(errors.invalidInput);
   }
@@ -31,12 +34,12 @@ function evaluate(equation) {
  * @param {string} equation string
  * @returns {string} partially calculated equation string
  */
-function handleBrackets(equation) {
+function handleBrackets(equation: string): string {
   if (!equation.match(rePatterns.brackets)){
     return equation;
   }
   try {
-    const equationInBrackets = equation.match(re.brackets)[0];
+    const equationInBrackets = equation.match(re.brackets)![0];
     const resultInBrackets = calculate(equationInBrackets);
     const newEquation = equation.replace(`(${equationInBrackets})`, resultInBrackets);
     return handleBrackets(newEquation);
@@ -51,13 +54,13 @@ function handleBrackets(equation) {
  * @param {string} equation string
  * @returns {string} calculated result in string format
  */    
-function calculate(equation) {
+function calculate(equation: string): string {
   const equationWithReplacedNegative = replaceNegative(equation);
   if(rePatterns.negNumber.test(equationWithReplacedNegative)){
       return equationWithReplacedNegative.replace(rePatterns.negative, reStrings.minus);
   }
   const allOperators = equationWithReplacedNegative.match(presets.operatorsRegexp);
-  const currentOperator = getPriorityOperator(allOperators);
+  const currentOperator = getPriorityOperator(allOperators!);
   const expression = getExpression(currentOperator, equationWithReplacedNegative);
   const expressionResult = calculateExpression(currentOperator, expression);
   const newEquation = equationWithReplacedNegative.replace(expression, expressionResult);
@@ -70,7 +73,7 @@ function calculate(equation) {
  * @param {string[]} array of all operators in the equation 
  * @returns {string} operator to be executed first
  */
-function getPriorityOperator(allOperators) {
+function getPriorityOperator(allOperators: string[]): string {
   let operatorToExecute = allOperators[0];
   for(let i = 1; i < allOperators.length; i++) {
     const operator = allOperators[i];
@@ -90,12 +93,19 @@ function getPriorityOperator(allOperators) {
  * @param {string} string that represents current operation 
  * @returns {string} calculated result in string format
  */
-function calculateExpression(operator, expression) {
-  let operands = expression.match(re.allNumbers);
+function calculateExpression(operator: string, expression: string): string {
+  const rawOperands = expression.match(re.allNumbers);
   const operation = presets.operations[operator];
-  operands = operands.map(operand => operand.replace(rePatterns.negative, reStrings.minus));
-  return operation.calculate(...operands);
+  const operands: string[] = rawOperands!.map((operand: string) => operand.replace(rePatterns.negative, reStrings.minus));
+  const calculationResult = operation.calculate(...operands);
+  return calculationResult.toString();
 }
 
 
-module.exports = evaluate;
+// function evaluate(equation) {
+//   console.log(equation);
+//   return '4';
+// }
+
+// export = {};
+// module.exports = evaluate;

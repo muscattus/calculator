@@ -2,8 +2,9 @@ const addition = {
   symbol: '+',
   operator: '+',
   priority: 1,
-  calculate: function(a, b) {
-    return +a + +b;
+  calculate: function(...operands: string[] ) {
+    return +operands[0] + +operands[1];
+    // return +a + +b;
   }
 };
 
@@ -11,8 +12,8 @@ const subtraction = {
   symbol: '-',
   operator: '-',
   priority: 1,
-  calculate: function(a, b) {
-    return +a - +b;
+  calculate: function(...operands: string[]) {
+    return +operands[0] - +operands[1];
   }
 };
 
@@ -20,8 +21,8 @@ const division = {
   symbol: '&#247;',
   operator: '/',
   priority: 2,
-  calculate: function(a, b) {
-    return +a / +b;
+  calculate: function(...operands: string[]) {
+    return +operands[0] / +operands[1];
   }
 };
 
@@ -29,8 +30,8 @@ const multiplication = {
   symbol: '*',
   operator: '*',
   priority: 2,
-  calculate: function(a, b) {
-    return +a * +b;
+  calculate: function(...operands: string[]) {
+    return +operands[0] * +operands[1];
   }
 };
 
@@ -39,8 +40,8 @@ const power = {
   operator: '^',
   priority: 3,
   additional: true,
-  calculate: function(a, b) {
-    return Math.pow(a, b);
+  calculate: function(...operands: string[]) {
+    return Math.pow(+operands[0], +operands[1]);
   }
 };
 
@@ -50,12 +51,12 @@ const squareRoot = {
   priority: 3,
   unary: true,
   additional: true,
-  calculate: function(a) {
-    return Math.sqrt(+a);
+  calculate: function(...operands: string[]) {
+    return Math.sqrt(+operands[0]);
   }
 };
 
-const operations = [
+export const operations = [
   addition,
   subtraction,
   multiplication,
@@ -63,5 +64,3 @@ const operations = [
   squareRoot,
   division
 ];
-
-module.exports = operations;

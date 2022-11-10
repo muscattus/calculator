@@ -2,7 +2,7 @@ import { fetchData } from "../helpers/fetch-data";
 import { BASE_URL } from "./constants";
 
 export class CalcApi {
-  headers: any;
+  headers;
 
   constructor() {
     this.headers = {

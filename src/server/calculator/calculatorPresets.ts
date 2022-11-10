@@ -1,11 +1,15 @@
-const { regexpStrings } = require("./constants/constants");
-const allOperations = require("./operations/index");
+// const { regexpStrings } = require("./constants/constants");
+import {regexpStrings}  from './constants/constants';
+// const allOperations = require("./operations/index");
+import { operations as allOperations} from './operations/index';
+import {Operations, DefaultOperation, CalculatorPresets } from "./constants/interfaces";
 
-const calculatorPresets = {};
+// let calculatorPresets: CalculatorPresets;
+const calculatorPresets: any = {};
 
 setupCalculator();
 
-function setupCalculator() {
+function setupCalculator(): void {
   calculatorPresets.operations = getOperations(allOperations);
   calculatorPresets.operators = Object.keys(calculatorPresets.operations);
   const operatorsPattern = getOperatorsString(calculatorPresets.operators);
@@ -15,14 +19,15 @@ function setupCalculator() {
 }
 
 
-function getOperations(operations) {
-  return operations.reduce((calculatorOperations, operation) => {
-    calculatorOperations[operation.operator] = operation;
+function getOperations(operations: DefaultOperation[]): Operations {
+  return operations.reduce((calculatorOperations: Operations, operation: DefaultOperation) => {
+    const operator = operation.operator;
+    calculatorOperations[operator] = operation;
     return calculatorOperations;
   }, {});
 };
 
-function getOperatorsString(operators) {
+function getOperatorsString(operators: string[]): string {
   const escapedOperators = operators.map(operator => {
     return operator.length === 1 ? `\\${operator}` : operator
   })
@@ -30,16 +35,18 @@ function getOperatorsString(operators) {
   return operatorsString;
 }
 
-function getNegativeRegexp (operators) {
+function getNegativeRegexp (operators: string): RegExp {
   const operatorsPattern = `((?<=${operators})-(?=\\d+))|(^-)`;
   const operatorsRegexp = new RegExp(operatorsPattern, 'g');
   return operatorsRegexp;
 }
 
-function getValidationRegexp(operatorsRegexpPattern) {
+function getValidationRegexp(operatorsRegexpPattern: string): RegExp {
   const pattern = `^(${regexpStrings.number}|${operatorsRegexpPattern}|\\(|\\))+$`;
   const validationRegexp = new RegExp(pattern);
   return validationRegexp
 }
 
-module.exports = calculatorPresets;
+export {calculatorPresets};
+// module.exports = calculatorPresets;
+// export {};

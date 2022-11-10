@@ -1,7 +1,7 @@
-const {regexpStrings} = require('../constants/constants');
-// import {regexpStrings} from '../constants/constants.js';
-const presets = require('../calculatorPresets');
-// import { calculatorPresets as presets } from '../calculatorPresets.js';
+// const {regexpStrings} = require('../constants/constants');
+import {regexpStrings} from '../constants/constants';
+// const presets = require('../calculatorPresets');
+import { calculatorPresets as presets } from '../calculatorPresets';
 
 /**
  * Replaces all '-' (minus) signs for negative numbers with 'neg' string so
@@ -10,7 +10,7 @@ const presets = require('../calculatorPresets');
  * @param {string} equation string
  * @returns {string} equation string with replaced signs
  */
-function replaceNegative(equation) {
+export function replaceNegative(equation: string): string {
   const equationWithReplacedNegative =  equation.replaceAll(presets.negativeRegexp, regexpStrings.negative);
   return equationWithReplacedNegative;
 }
@@ -23,12 +23,12 @@ function replaceNegative(equation) {
  * @param {string} the whole equation 
  * @returns {string} statement in string format
  */
-function getExpression(operator, equation) {
+export function getExpression(operator: string, equation: string): string {
   const escOperator = operator.length > 1 ? operator : `\\${operator}`;
   const expressionPattern = presets.operations[operator].unary ?
   `${escOperator}${regexpStrings.number}` :
   `${regexpStrings.number}${escOperator}${regexpStrings.number}`;
-  return equation.match(expressionPattern)[0];
+  return equation.match(expressionPattern)![0];
 }
 
 /**
@@ -38,12 +38,12 @@ function getExpression(operator, equation) {
  * @throws {ValidationError} if string is not valid
  * @returns {boolean} If string is valid
  */
-function validateEquation(equation) {
+export function validateEquation(equation: string): boolean {
   return presets.validationRegexp.test(equation)
 }
 
-module.exports = {
-  getExpression,
-  validateEquation,
-  replaceNegative
-}
+// export {
+//   getExpression,
+//   validateEquation,
+//   replaceNegative
+// }
