@@ -10,3 +10,11 @@ export interface DefaultOperation {
 export interface Operations {
   [key: string]: DefaultOperation
 }
+
+
+export interface Observer {
+  update(data: string) : void | Promise<void>
+}
+export interface Listener {
+  [key: string]: Observer
+}

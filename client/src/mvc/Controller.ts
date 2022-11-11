@@ -1,4 +1,4 @@
-import { errorMessages } from './../server/calculator/errors/errorMessages';
+// import { errorMessages } from './../server/calculator/errors/errorMessages';
 import { EVENT_TYPES, ERROR_MESSAGES } from "./constants/constants";
 import { Model } from "./Model";
 import { CalculatorApi } from "../api/CalculatorApi";
@@ -7,14 +7,13 @@ export class Controller {
   model: any;
   api: any;
 
-  constructor(model: Model, api: CalculatorApi) {
+  constructor(model: Model) {
     this.model = model;
-    this.api = api;
   }
 
-  async update(equation: string) {
+  async update(data: string): Promise<void> {
     try {
-      const result = await this.evaluate(equation);
+      const result = await this.evaluate(data);
       this.model.setState(EVENT_TYPES.display, result);
     } catch (error) {
       // if (error instanceof ValidationError) {
@@ -28,7 +27,7 @@ export class Controller {
   }
 
   async evaluate(equation: string) {
-    const result = await this.api.evaluateEquation(equation); 
+    const result = await CalculatorApi.evaluateEquation(equation); 
     return result;
   }
 

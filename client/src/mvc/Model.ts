@@ -1,8 +1,10 @@
+import { Observer, Listener } from "./constants/interfaces";
+
 export class Model {
 
-  observers: any[] = [];
+  observers: Listener[] = [];
 
-  subscribe(eventType: string, listener: any): void {
+  subscribe(eventType: string, listener: Observer): void {
     this.observers.push({[eventType]: listener});
   }
 
@@ -11,7 +13,7 @@ export class Model {
   }
 
   notifyListeners(eventType: string, payload: any) {
-    this.observers.forEach( observer => {
+    this.observers.forEach( (observer: Listener) => {
       if(Object.keys(observer).includes(eventType)){
           observer[eventType].update(payload);
       }

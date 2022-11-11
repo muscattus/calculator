@@ -1,9 +1,8 @@
 import {regexpStrings}  from './constants/constants';
 import { operations as allOperations} from './operations/index';
-import {Operations, DefaultOperation } from "./constants/interfaces";
+import {Operations, DefaultOperation, CalculatorPresets } from "./constants/interfaces";
 
-// let calculatorPresets: CalculatorPresets;
-const calculatorPresets: any = {};
+let calculatorPresets: CalculatorPresets = {} as CalculatorPresets; 
 
 setupCalculator();
 

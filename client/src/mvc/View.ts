@@ -11,9 +11,8 @@ export class View {
   input: HTMLInputElement | null;
   output: HTMLElement | null;
   keypad: HTMLElement | null;
-  constructor(private model: Model, private api: CalculatorApi) {
+  constructor(private model: Model) {
     this.model = model;
-    this.api = api;
     this.additionalOperations = document.querySelector('#additional-operations');
     this.addOperationsButtons();
     this.clear = document.querySelector('#clear');
@@ -36,7 +35,7 @@ export class View {
   }
   
   async addOperationsButtons() {
-    const operations = await getOperations(this.api);
+    const operations = await getOperations();
     const operationsButtons = new DocumentFragment();
     operations.forEach((operation: DefaultOperation) => {
       if(operation.additional) {
@@ -93,8 +92,8 @@ export class View {
     return errorMessages.some(message => this.input!.value.match(message));
   }
   
-  update(result: string) {
-    this.displayResult(result);
+  update(data: string): void {
+    this.displayResult(data);
   }
   
   clearInput() {
@@ -107,7 +106,7 @@ export class View {
   }
 }
 
-async function getOperations(api: CalculatorApi) {
-  const response = await api.getOperations();
+async function getOperations() {
+  const response = await CalculatorApi.getOperations();
   return response;
 }

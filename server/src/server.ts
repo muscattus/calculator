@@ -2,8 +2,8 @@
 import express from 'express';
 import { PORT, ORIGIN_URL } from './constants/constants'
 const cors = require('cors');
-import calculatorRouter from './routes/calculator';
 const app = express();
+import baseRouter from './routes/index';
 
 
 const corsOptions = {
@@ -11,7 +11,18 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use('/calculator', calculatorRouter);
+app.use('/api', baseRouter);
+app.get('/some/time', (req, res, next) => {
+  console.log('first time');
+  next();
+})
+app.get('/some/*', (req, res, next) => {
+  console.log('second time');
+  next();
+})
+app.get('/some/time', (req, res, next) => {
+  console.log('third time');
+})
 
 
 app.listen(PORT, () => {
