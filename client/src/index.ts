@@ -1,6 +1,7 @@
 import { Model } from './mvc/Model';
 import { View } from './mvc/View';
 import { Controller } from './mvc/Controller';
+import './assets/loader.gif'
 
 function initPage(){
   const model = new Model();

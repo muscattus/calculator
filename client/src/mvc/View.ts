@@ -1,7 +1,8 @@
-import { CODES, EVENT_TYPES, ERROR_MESSAGES } from "./constants/constants";
+import { EVENT_TYPES} from "./constants/constants";
+import { ERROR_MESSAGES } from "../api/constants/constants";
 import { Model } from './Model';
 import { CalculatorApi } from '../api/CalculatorApi';
-import { DefaultOperation, Operations } from "./constants/interfaces";
+import { DefaultOperation } from "./constants/interfaces";
 export class View {
 
   additionalOperations: HTMLElement | null;
@@ -11,6 +12,8 @@ export class View {
   input: HTMLInputElement | null;
   output: HTMLElement | null;
   keypad: HTMLElement | null;
+  errors: string[];
+  expand: HTMLElement | null;
   constructor(private model: Model) {
     this.model = model;
     this.additionalOperations = document.querySelector('#additional-operations');
@@ -21,9 +24,12 @@ export class View {
     this.input = document.querySelector('#input');
     this.output = document.querySelector('#output');
     this.keypad = document.getElementById('keypad');
+    this.expand = document.getElementById('expand');
     this.input!.focus();
     this.asignEventListeners();
+    this.errors = Object.values(ERROR_MESSAGES);
   }
+
 
   asignEventListeners(){
     const keypad = document.getElementById('keypad');
@@ -32,6 +38,8 @@ export class View {
     this.clear!.addEventListener('click', () => this.clearInput());
     this.backspace!.addEventListener('click', () => this.deleteLastChar());
     document.addEventListener('keyup', (event) => this.keyboardHandle(event));
+    this.input!.addEventListener('input', (event: any) => this.checkKeyboardInput(event.data));
+    this.expand!.addEventListener('click', () => this.expandCollapseOperations());
   }
   
   async addOperationsButtons() {
@@ -46,14 +54,24 @@ export class View {
         operationsButtons.append(button);
       }
     })
+    this.additionalOperations!.innerHTML = '';
     this.additionalOperations!.append(operationsButtons);
+    this.additionalOperations!.addEventListener('click', (event) => this.handleAdditionalOperations(event));
   }
   
-  
+  handleAdditionalOperations(event: any) {
+    this.expandCollapseOperations();
+    this.displayInput(event);
+  }
+
   createEquation() {
     const equation = this.input!.value;
     this.model.setState(EVENT_TYPES.calculate, equation);
   } 
+
+  expandCollapseOperations() {
+    this.additionalOperations!.classList.toggle('expanded');
+  }
   
   keyboardHandle(event: KeyboardEvent) {
     // if(event.keyCode.toString() === CODES.return) {
@@ -87,9 +105,15 @@ export class View {
     this.input!.focus();
   }
 
+  checkKeyboardInput(newInput: string) {
+    if(this.checkErrorInInput()){
+      this.input!.value = '';
+      this.input!.value += newInput;
+      this.input!.focus();
+    }
+  }
   checkErrorInInput() {
-    const errorMessages = Object.values(ERROR_MESSAGES);
-    return errorMessages.some(message => this.input!.value.match(message));
+    return this.errors.some(message => this.input!.value.match(message))
   }
   
   update(data: string): void {

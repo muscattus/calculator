@@ -1,8 +1,9 @@
 import { regexpPatterns as rePatterns, regexpStrings as reStrings, regexp as re}from "./constants/constants";
-import { calculatorPresets as presets  } from "./calculatorPresets";
+import presets from "./calculatorPresets";
 import { ValidationError } from './errors/ValidationError';
 import { errorMessages as errors } from './errors/errorMessages';
 import { replaceNegative, getExpression, validateEquation } from "./helpers/helpers";
+import { ApiError } from './../calculator/errors/ApiError';
 
 /**
  * Validates and executes the equation.
@@ -46,16 +47,20 @@ function handleBrackets(equation: string): string {
  * @returns {string} calculated result in string format
  */    
 function calculate(equation: string): string {
-  const equationWithReplacedNegative = replaceNegative(equation);
-  if(rePatterns.negNumber.test(equationWithReplacedNegative)){
+  try {
+    const equationWithReplacedNegative = replaceNegative(equation);
+    if(rePatterns.negNumber.test(equationWithReplacedNegative)){
       return equationWithReplacedNegative.replace(rePatterns.negative, reStrings.minus);
+    }
+    const allOperators = equationWithReplacedNegative.match(presets.operatorsRegexp);
+    const currentOperator = getPriorityOperator(allOperators!);
+    const expression = getExpression(currentOperator, equationWithReplacedNegative);
+    const expressionResult = calculateExpression(currentOperator, expression);
+    const newEquation = equationWithReplacedNegative.replace(expression, expressionResult);
+    return calculate(newEquation);
+  } catch {
+    throw new Error ('Error in calculation')
   }
-  const allOperators = equationWithReplacedNegative.match(presets.operatorsRegexp);
-  const currentOperator = getPriorityOperator(allOperators!);
-  const expression = getExpression(currentOperator, equationWithReplacedNegative);
-  const expressionResult = calculateExpression(currentOperator, expression);
-  const newEquation = equationWithReplacedNegative.replace(expression, expressionResult);
-  return calculate(newEquation);
 }
     
 /**

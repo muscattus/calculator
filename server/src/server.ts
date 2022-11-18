@@ -1,5 +1,6 @@
 
 import express from 'express';
+import { handleError } from './calculator/errors/handle-error';
 import { PORT, ORIGIN_URL } from './constants/constants'
 const cors = require('cors');
 const app = express();
@@ -12,18 +13,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use('/api', baseRouter);
-app.get('/some/time', (req, res, next) => {
-  console.log('first time');
-  next();
-})
-app.get('/some/*', (req, res, next) => {
-  console.log('second time');
-  next();
-})
-app.get('/some/time', (req, res, next) => {
-  console.log('third time');
-})
-
+app.use(handleError);
 
 app.listen(PORT, () => {
   console.log('port', PORT);

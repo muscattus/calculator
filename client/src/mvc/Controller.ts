@@ -1,5 +1,6 @@
-// import { errorMessages } from './../server/calculator/errors/errorMessages';
-import { EVENT_TYPES, ERROR_MESSAGES } from "./constants/constants";
+import { apiError } from "../api/constants/interfaces";
+import { handleError } from "../api/helpers/handle-error";
+import { EVENT_TYPES } from "./constants/constants";
 import { Model } from "./Model";
 import { CalculatorApi } from "../api/CalculatorApi";
 
@@ -16,19 +17,14 @@ export class Controller {
       const result = await this.evaluate(data);
       this.model.setState(EVENT_TYPES.display, result);
     } catch (error) {
-      // if (error instanceof ValidationError) {
-      //   if (error.errorMessages === 'Validation')
-      //   this.model.setState(EVENT_TYPES.showError, ERROR_MESSAGES.validationError);
-      // }
-      // else {
-        this.model.setState(EVENT_TYPES.showError, ERROR_MESSAGES.generalError);
-      // }
+      const errorMessage = handleError(error);
+      this.model.setState(EVENT_TYPES.display, errorMessage);
     }
   }
 
   async evaluate(equation: string) {
-    const result = await CalculatorApi.evaluateEquation(equation); 
-    return result;
+      const result = await CalculatorApi.evaluateEquation(equation); 
+      return result;
   }
 
 }

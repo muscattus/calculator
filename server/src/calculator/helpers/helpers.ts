@@ -1,5 +1,5 @@
 import {regexpStrings} from '../constants/constants';
-import { calculatorPresets as presets } from '../calculatorPresets';
+import presets from '../calculatorPresets';
 
 /**
  * Replaces all '-' (minus) signs for negative numbers with 'neg' string so
@@ -37,5 +37,5 @@ export function getExpression(operator: string, equation: string): string {
  * @returns {boolean} If string is valid
  */
 export function validateEquation(equation: string): boolean {
-  return presets.validationRegexp.test(equation)
+  return !!equation && presets.validationRegexp.test(equation)
 }

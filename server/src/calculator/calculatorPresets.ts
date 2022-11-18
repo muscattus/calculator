@@ -2,17 +2,20 @@ import {regexpStrings}  from './constants/constants';
 import { operations as allOperations} from './operations/index';
 import {Operations, DefaultOperation, CalculatorPresets } from "./constants/interfaces";
 
-let calculatorPresets: CalculatorPresets = {} as CalculatorPresets; 
-
-setupCalculator();
-
-function setupCalculator(): void {
-  calculatorPresets.operations = getOperations(allOperations);
-  calculatorPresets.operators = Object.keys(calculatorPresets.operations);
-  const operatorsPattern = getOperatorsString(calculatorPresets.operators);
-  calculatorPresets.operatorsRegexp = new RegExp(operatorsPattern, 'g');
-  calculatorPresets.negativeRegexp = getNegativeRegexp(operatorsPattern);
-  calculatorPresets.validationRegexp = getValidationRegexp(operatorsPattern);
+function setupCalculator(): CalculatorPresets {
+  const operations = getOperations(allOperations);
+  const operators = Object.keys(operations);
+  const operatorsPattern = getOperatorsString(operators);
+  const operatorsRegexp = new RegExp(operatorsPattern, 'g');
+  const negativeRegexp = getNegativeRegexp(operatorsPattern);
+  const validationRegexp = getValidationRegexp(operatorsPattern);
+  return {
+    operations,
+    operators,
+    operatorsRegexp,
+    negativeRegexp,
+    validationRegexp
+  }
 }
 
 
@@ -44,4 +47,4 @@ function getValidationRegexp(operatorsRegexpPattern: string): RegExp {
   return validationRegexp
 }
 
-export {calculatorPresets};
+export default setupCalculator();

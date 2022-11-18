@@ -1,5 +1,6 @@
-import { fetchData } from "../helpers/fetch-data";
-import { BASE_URL } from "./constants";
+import { fetchData } from "./helpers/fetch-data";
+import { BASE_URL } from "./constants/constants";
+
 
 class Singleton {
   private static instance: Singleton;
