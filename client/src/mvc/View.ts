@@ -1,8 +1,8 @@
-import { EVENT_TYPES} from "./constants/constants";
+import { EVENT_TYPES, validationError} from "./constants/constants";
 import { ERROR_MESSAGES } from "../api/constants/constants";
 import { Model } from './Model';
 import { CalculatorApi } from '../api/CalculatorApi';
-import { DefaultOperation } from "./constants/interfaces";
+import { DefaultOperation} from "./constants/interfaces";
 export class View {
 
   additionalOperations: HTMLElement | null;
@@ -14,10 +14,12 @@ export class View {
   keypad: HTMLElement | null;
   errors: string[];
   expand: HTMLElement | null;
+  operations: any[] = [];
+  validationRegexp: RegExp = new RegExp('');
   constructor(private model: Model) {
     this.model = model;
     this.additionalOperations = document.querySelector('#additional-operations');
-    this.addOperationsButtons();
+    this.getOperations();
     this.clear = document.querySelector('#clear');
     this.backspace = document.querySelector('#backspace');
     this.equals = document.querySelector('#equals');
@@ -42,8 +44,7 @@ export class View {
     this.expand!.addEventListener('click', () => this.expandCollapseOperations());
   }
   
-  async addOperationsButtons() {
-    const operations = await getOperations();
+  addOperationsButtons(operations: DefaultOperation[]) {
     const operationsButtons = new DocumentFragment();
     operations.forEach((operation: DefaultOperation) => {
       if(operation.additional) {
@@ -64,8 +65,16 @@ export class View {
     this.displayInput(event);
   }
 
+  validateEquation(equation: string) {
+    return !!equation && this.validationRegexp.test(equation);
+  }
+
   createEquation() {
     const equation = this.input!.value;
+    if (!this.validateEquation(equation)){
+      this.update(validationError);
+      return;
+    }
     this.model.setState(EVENT_TYPES.calculate, equation);
   } 
 
@@ -74,11 +83,9 @@ export class View {
   }
   
   keyboardHandle(event: KeyboardEvent) {
-    // if(event.keyCode.toString() === CODES.return) {
     if(event.key === 'Enter') {
       this.createEquation();
     }
-    // if(event.keyCode === CODES.escape) {
     if(event.key === 'Escape') {
       this.clearInput();
     }
@@ -128,9 +135,11 @@ export class View {
   deleteLastChar() {
     this.input!.value = this.input!.value.slice(0,-1);
   }
-}
 
-async function getOperations() {
-  const response = await CalculatorApi.getOperations();
-  return response;
+  async getOperations() {
+    const response = await CalculatorApi.getOperations();
+    this.validationRegexp = new RegExp(response.regexp);
+    console.log(response.operations);
+    this.addOperationsButtons(response.operations)
+  }
 }

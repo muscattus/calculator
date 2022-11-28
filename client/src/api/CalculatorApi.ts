@@ -37,6 +37,7 @@ class Singleton {
     'GET',
     this.headers
     );
+    // console.log(response);
     return JSON.parse(response); 
   }
 }

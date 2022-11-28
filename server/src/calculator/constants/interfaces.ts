@@ -17,5 +17,6 @@ export interface CalculatorPresets {
   operators: string[],
   operatorsRegexp: RegExp,
   negativeRegexp: RegExp,
-  validationRegexp: RegExp
+  validationRegexp: RegExp,
+  operatorsPattern: string
 }

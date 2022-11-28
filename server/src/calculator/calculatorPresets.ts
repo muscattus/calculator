@@ -14,6 +14,7 @@ function setupCalculator(): CalculatorPresets {
     operators,
     operatorsRegexp,
     negativeRegexp,
+    operatorsPattern,
     validationRegexp
   }
 }

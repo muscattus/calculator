@@ -12,3 +12,5 @@ export const EVENT_TYPES = {
   display: 'displayResult',
   showError: 'showError'
 }
+
+export const validationError = 'Invalid input';
