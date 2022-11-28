@@ -6,7 +6,6 @@ const cors = require('cors');
 const app = express();
 import baseRouter from './routes/index';
 
-
 const corsOptions = {
   origin: ORIGIN_URL
 };
@@ -19,4 +18,4 @@ app.listen(PORT, () => {
   console.log('port', PORT);
   console.log('orig', ORIGIN_URL);
   console.log(`App is working at http://${PORT}`);
-})
+});
