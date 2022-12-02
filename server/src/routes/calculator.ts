@@ -8,20 +8,20 @@ const router = Router();
 import { db } from '../db/calculator_db';
 
 
-router.post('/evaluate', jsonParser, (req: Request, res: Response, next: NextFunction) => {
+router.post('/evaluate', jsonParser, async (req: Request, res: Response, next: NextFunction) => {
   const equation = req.body.equation;
   try {
-    const result = evaluate(equation);
-    db.findMatch(equation);
-    db.log(req.body.equation, result);
-    res.json({result});
+    let result: string;
+    result = await db.findMatch(equation, res);
+    if (!result) {
+      result = evaluate(equation);
+    }
+    const isLogged = await db.logEquation(req.body.equation, result);
+    console.log(isLogged);
+    res.json({result, isLogged});
   } catch (error: any) {
     next(ApiError.badRequest(error.message, error.name));
   }
-})
-
-router.get('/persons', (req: Request, res: Response) => {
-  return db.getLast(5, res);
 })
 
 export default router;

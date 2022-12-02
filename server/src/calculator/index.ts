@@ -12,6 +12,7 @@ import { ApiError } from './../calculator/errors/ApiError';
  * @returns {string} calculated value in string format
  */
 export function evaluate(equation: string): string {    
+  console.log('evaluate');
   if (!validateEquation(equation)){
     throw new ValidationError(errors.invalidInput);
   }

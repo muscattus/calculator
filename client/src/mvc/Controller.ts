@@ -5,8 +5,7 @@ import { Model } from "./Model";
 import { CalculatorApi } from "../api/CalculatorApi";
 
 export class Controller {
-  model: any;
-  api: any;
+  model: Model;
 
   constructor(model: Model) {
     this.model = model;

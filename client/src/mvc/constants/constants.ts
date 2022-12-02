@@ -7,6 +7,8 @@ export const CODES = {
   escape: 27
 }
 
+export const historyLength = 5;
+
 export const EVENT_TYPES = {
   calculate: 'calculate',
   display: 'displayResult',

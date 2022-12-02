@@ -1,8 +1,8 @@
-import { EVENT_TYPES, validationError} from "./constants/constants";
-import { ERROR_MESSAGES } from "../api/constants/constants";
+import { EVENT_TYPES, validationError, historyLength  as defaultHistoryLength} from "./constants/constants";
+import { ERROR_MESSAGES} from "../api/constants/constants";
 import { Model } from './Model';
 import { CalculatorApi } from '../api/CalculatorApi';
-import { DefaultOperation} from "./constants/interfaces";
+import { DefaultOperation, Operations, historyEntry} from "./constants/interfaces";
 export class View {
 
   additionalOperations: HTMLElement | null;
@@ -14,7 +14,9 @@ export class View {
   keypad: HTMLElement | null;
   errors: string[];
   expand: HTMLElement | null;
-  operations: any[] = [];
+  historyLog: HTMLElement | null;
+  operations: DefaultOperation[] = [];
+  history: historyEntry[] = [];
   validationRegexp: RegExp = new RegExp('');
   constructor(private model: Model) {
     this.model = model;
@@ -25,11 +27,13 @@ export class View {
     this.equals = document.querySelector('#equals');
     this.input = document.querySelector('#input');
     this.output = document.querySelector('#output');
+    this.historyLog = document.querySelector('#history');
     this.keypad = document.getElementById('keypad');
     this.expand = document.getElementById('expand');
     this.input!.focus();
     this.asignEventListeners();
     this.errors = Object.values(ERROR_MESSAGES);
+    this.displayHistory(defaultHistoryLength);
   }
 
 
@@ -42,6 +46,7 @@ export class View {
     document.addEventListener('keyup', (event) => this.keyboardHandle(event));
     this.input!.addEventListener('input', (event: any) => this.checkKeyboardInput(event.data));
     this.expand!.addEventListener('click', () => this.expandCollapseOperations());
+    this.historyLog!.addEventListener('click', (event) => this.inputFromHistory(event))
   }
   
   addOperationsButtons(operations: DefaultOperation[]) {
@@ -75,6 +80,7 @@ export class View {
       this.update(validationError);
       return;
     }
+    this.history.push({equation});
     this.model.setState(EVENT_TYPES.calculate, equation);
   } 
 
@@ -107,7 +113,7 @@ export class View {
   }
 
   displayResult(result: string) {
-    this.output!.textContent = this.input!.value;
+    this.output!.textContent = `${this.input!.value}=`;
     this.input!.value = result;
     this.input!.focus();
   }
@@ -123,8 +129,44 @@ export class View {
     return this.errors.some(message => this.input!.value.match(message))
   }
   
-  update(data: string): void {
-    this.displayResult(data);
+  update(data: any): void {
+    this.displayResult(data.result);
+    if (data.isLogged) {
+      this.addToHistory(data.result);
+    } else {
+      this.history.pop();
+    }
+  }
+
+  addToHistory(result: string): void{
+    const historyLength = this.history.length;
+    this.history[historyLength - 1].calculatedresult = result;
+    this.history.shift();
+    this.displayHistory(historyLength - 1);
+  }
+
+  async displayHistory(historyLength: number): Promise<void> {
+    if (this.history.length < 1) {
+      this.history = await CalculatorApi.getHistory();
+    }
+    const log = new DocumentFragment();
+    for (let i = 0; i < historyLength; i++) {
+      const entry = this.history[i];
+      const entryContainer = document.createElement('p');
+      entryContainer.classList.add('history-entry');
+      entryContainer.dataset.equation = entry.equation;
+      entryContainer.textContent = `${entry.equation}=${entry.calculatedresult}`;
+      log.append(entryContainer);
+    }
+    this.historyLog!.innerHTML = '';
+    this.historyLog!.append(log);
+  }
+
+  inputFromHistory(event: any) {
+    const equation = event.target.dataset.equation || null;
+    if(event.target.dataset.equation) {
+      this.input!.value = equation;
+    }
   }
   
   clearInput() {
@@ -139,7 +181,6 @@ export class View {
   async getOperations() {
     const response = await CalculatorApi.getOperations();
     this.validationRegexp = new RegExp(response.regexp);
-    console.log(response.operations);
     this.addOperationsButtons(response.operations)
   }
 }

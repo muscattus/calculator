@@ -1,3 +1,4 @@
+import { historyLength } from './../mvc/constants/constants';
 import { fetchData } from "./helpers/fetch-data";
 import { BASE_URL } from "./constants/constants";
 
@@ -22,13 +23,13 @@ class Singleton {
   }
 
   public evaluateEquation = async function  (equation: string) {
-    const response = await fetchData(
+    const calculationResult = await fetchData(
       `${BASE_URL}calculator/evaluate`,
       'POST',
       this.headers,
       JSON.stringify({equation})
       );
-    return response.result;
+    return calculationResult;
   }
 
   public getOperations = async function () {
@@ -37,8 +38,16 @@ class Singleton {
     'GET',
     this.headers
     );
-    // console.log(response);
     return JSON.parse(response); 
+  }
+
+  public getHistory = async function () {
+    const history = await fetchData(
+      `${BASE_URL}history`,
+      'GET',
+      this.headers
+    );
+    return history.history;
   }
 }
 
