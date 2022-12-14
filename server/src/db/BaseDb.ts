@@ -40,7 +40,7 @@ export default class BaseDb {
     .then((match: any) => {
       return match;
     })
-    .catch((e: any)=> {
+    .catch(()=> {
       return DBError.matchError()
     })
   }

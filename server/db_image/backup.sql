@@ -1,0 +1,230 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.1 (Debian 15.1-1.pgdg110+1)
+-- Dumped by pg_dump version 15.1 (Debian 15.1-1.pgdg110+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: calculationslog; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.calculationslog (
+    id integer NOT NULL,
+    equation character varying(255) NOT NULL,
+    calculatedresult character varying(255),
+    calculatedat timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.calculationslog OWNER TO postgres;
+
+--
+-- Name: calculationslog_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.calculationslog_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.calculationslog_id_seq OWNER TO postgres;
+
+--
+-- Name: calculationslog_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.calculationslog_id_seq OWNED BY public.calculationslog.id;
+
+
+--
+-- Name: persons; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.persons (
+    personid integer,
+    lastname character varying(255),
+    firstname character varying(255),
+    city character varying(255)
+);
+
+
+ALTER TABLE public.persons OWNER TO postgres;
+
+--
+-- Name: calculationslog id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.calculationslog ALTER COLUMN id SET DEFAULT nextval('public.calculationslog_id_seq'::regclass);
+
+
+--
+-- Data for Name: calculationslog; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.calculationslog (id, equation, calculatedresult, calculatedat) FROM stdin;
+1	12/3	4	2022-11-22 12:30:16.239211
+2	4+92	96	2022-11-22 12:53:24.314919
+3	96/2	48	2022-11-22 13:52:56.937482
+4	48*(11-8)	144	2022-11-22 13:53:10.916826
+5	144-84	60	2022-11-22 13:53:23.559976
+6	60/5	12	2022-11-22 13:53:29.473572
+7	12*4	48	2022-11-22 13:53:42.263936
+8	48-57	-9	2022-11-22 13:53:51.014292
+9	-9*-1	9	2022-11-22 13:54:01.406657
+10	sqrt9	3	2022-11-22 13:54:12.556055
+11	3^3	27	2022-11-22 13:54:23.879629
+12	sqrt9	3	2022-11-22 15:46:42.336064
+13	12*4	48	2022-11-22 15:51:48.508674
+14	3*9	27	2022-11-28 16:38:53.985514
+15	3+5	8	2022-11-28 17:02:21.230046
+16	8-3	5	2022-11-28 17:02:26.065299
+17	4-6	-2	2022-11-28 17:02:46.944514
+18	3+3	6	2022-11-28 17:03:46.61576
+19	5*9	45	2022-11-28 17:04:02.882086
+20	6-5	1	2022-11-28 19:11:16.013673
+21	sqrt9	3	2022-11-28 20:52:58.255662
+22	3+4	7	2022-11-28 21:01:45.44856
+23	5*8	40	2022-11-28 21:02:01.852502
+24	47-6	41	2022-11-28 21:28:06.51851
+25	6-5	1	2022-11-28 21:28:23.067587
+26	6-5	1	2022-11-28 21:30:34.449179
+27	6-5	1	2022-11-28 21:33:12.306423
+28	6-5	1	2022-11-28 21:33:40.162452
+29	sqrt9	3	2022-11-28 21:34:28.78555
+30	sqrt9	3	2022-11-28 21:36:23.546825
+31	sqrt9	3	2022-11-28 21:43:03.355196
+32	6-5	1	2022-11-28 21:43:59.950035
+33	6-5	1	2022-11-28 21:44:43.24071
+34	112+65	177	2022-11-28 21:47:28.562948
+35	177-94	83	2022-11-28 21:48:23.262074
+36	sqrt9	3	2022-11-28 21:49:20.769649
+37	sqrt9	3	2022-11-29 09:59:07.972768
+38	sqrt9	3	2022-11-29 09:59:50.855158
+39	6-5	1	2022-11-29 10:00:29.890898
+40	6-5	1	2022-11-29 10:01:21.192428
+41	95/2	47.5	2022-11-30 10:37:35.876441
+42	8-2	6	2022-11-30 10:39:16.169108
+43	13*6	78	2022-11-30 10:45:47.442007
+44	69/3	23	2022-11-30 10:46:48.018501
+45	54+2	56	2022-11-30 10:48:51.446267
+46	54+2	56	2022-11-30 11:04:34.847603
+47	9-8	1	2022-11-30 14:58:40.639201
+48	8-12	-4	2022-11-30 14:59:58.061009
+49	8-14	-6	2022-11-30 15:02:26.432141
+50	6-9	-3	2022-11-30 15:04:50.422679
+51	6-9	-3	2022-11-30 15:05:13.305841
+52	4-8	-4	2022-11-30 15:05:40.605865
+53	4-7	-3	2022-11-30 15:05:48.738749
+54	5*80	400	2022-12-01 18:48:46.210961
+55	47-12	35	2022-12-01 18:52:57.50089
+56	62+17	79	2022-12-01 18:53:52.479912
+57	79-45	34	2022-12-01 18:56:12.106049
+58	34+8	42	2022-12-01 18:57:29.738753
+59	42/2	21	2022-12-01 18:58:41.771753
+60	23*5	115	2022-12-01 19:00:13.138604
+61	31-9	22	2022-12-01 19:01:17.158026
+62	54/4	13.5	2022-12-01 19:02:01.547819
+63	6*2	12	2022-12-01 19:02:47.568437
+64	5*6	30	2022-12-01 19:41:31.917503
+65	44+11	55	2022-12-01 22:04:33.530459
+66	21/3	7	2022-12-01 22:06:56.719333
+67	7*11	77	2022-12-01 22:18:52.723893
+68	33/11	3	2022-12-01 22:20:52.604719
+69	6*4	24	2022-12-01 22:23:47.271102
+70	9-5	4	2022-12-01 22:24:51.808439
+71	9+5	14	2022-12-01 22:26:13.58209
+72	9+11	20	2022-12-01 22:26:48.918971
+73	20*6	120	2022-12-01 22:26:59.814748
+74	9+11	20	2022-12-01 22:37:59.448603
+75	20*6	120	2022-12-01 22:39:47.22888
+76	sqrt16	4	2022-12-01 22:40:27.332783
+77	5+8	13	2022-12-01 22:40:59.638706
+78	6-2	4	2022-12-01 22:41:14.313216
+79	49/7	7	2022-12-02 08:54:26.962668
+80	9*2	18	2022-12-02 08:55:39.059421
+81	18+45	63	2022-12-02 08:55:53.268502
+82	63-3	60	2022-12-02 08:56:17.127347
+83	3+9	12	2022-12-02 08:57:55.52916
+84	12-3	9	2022-12-02 08:59:17.224542
+85	8+6	14	2022-12-02 08:59:57.64097
+86	14/2	7	2022-12-02 09:00:05.346095
+87	6+8	14	2022-12-05 13:31:35.203959
+88	5+6	11	2022-12-05 13:32:58.526272
+89	11^2	121	2022-12-05 13:33:16.244499
+90	3+3	6	2022-12-05 13:40:03.659242
+91	5*2	10	2022-12-05 13:41:05.275377
+92	6/2	3	2022-12-05 13:42:42.555245
+93	3-6	-3	2022-12-05 13:43:11.156838
+94	8*4	32	2022-12-05 13:44:28.357577
+95	32/2	16	2022-12-05 13:45:04.087657
+96	0-8	-8	2022-12-05 13:53:46.997133
+97	3-6	-3	2022-12-05 20:51:16.92023
+98	-3-17	-20	2022-12-05 20:51:36.803657
+99	-3-17	-20	2022-12-05 21:02:30.798699
+100	6*50	300	2022-12-05 21:32:05.1785
+101	5+84	89	2022-12-05 22:11:01.061618
+102	6*51	306	2022-12-06 09:54:07.57252
+103	3+8	11	2022-12-07 20:59:29.31364
+104	5+84	89	2022-12-07 22:42:34.39391
+105	3+8	11	2022-12-07 22:43:41.21559
+106	6*51	306	2022-12-07 22:43:55.516949
+107	5+84	89	2022-12-07 22:44:49.61427
+108	sqrt9	3	2022-12-07 22:45:00.362156
+109	71*2	142	2022-12-07 22:45:15.31933
+110	6*51	306	2022-12-07 23:30:13.05559
+111	47+12	59	2022-12-09 21:10:01.074929
+112	59*5	295	2022-12-11 10:49:01.923736
+113	2*52	104	2022-12-11 10:51:28.220723
+114	12+13	25	2022-12-11 10:52:38.40398
+115	4+34	38	2022-12-14 11:15:02.466526
+\.
+
+
+--
+-- Data for Name: persons; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.persons (personid, lastname, firstname, city) FROM stdin;
+123	kdf	Kot	Dnipro
+\.
+
+
+--
+-- Name: calculationslog_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.calculationslog_id_seq', 115, true);
+
+
+--
+-- Name: calculationslog calculationslog_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.calculationslog
+    ADD CONSTRAINT calculationslog_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
