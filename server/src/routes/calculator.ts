@@ -5,22 +5,21 @@ import { evaluate } from '../calculator/index';
 import  { Request, Response, NextFunction } from 'express';
 const jsonParser = bodyParser.json();
 const router = Router();
-import { db } from '../db/calculator_db';
+import History from '../history/History'
 
 
 router.post('/evaluate', jsonParser, async (req: Request, res: Response, next: NextFunction) => {
   const equation = req.body.equation;
   try {
     let result: string;
-    result = await db.findMatch(equation, res);
+      result = await History.findMatch(equation, res);
     if (!result) {
-      result = evaluate(equation);
+        result = evaluate(equation);
     }
-    const isLogged = await db.logEquation(req.body.equation, result);
-    console.log(isLogged);
+    const isLogged = await History.addEquationToHistory(req.body.equation, result);
     res.json({result, isLogged});
   } catch (error: any) {
-    next(ApiError.badRequest(error.message, error.name));
+    next(ApiError.internalError(error.message, error.name));
   }
 })
 

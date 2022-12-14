@@ -7,5 +7,5 @@ export function handleError(err: ApiError, req: Request, res: Response, next: Ne
     return;
   }
 
-  res.status(500).json({message: 'Server is temporarily unavailable', name: 'InternalError'});
+  res.status(503).json({message: 'Server is temporarily unavailable', name: 'ServiceUnavailable'});
 }

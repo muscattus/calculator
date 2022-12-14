@@ -8,11 +8,11 @@ export class ApiError {
     this.name = name;
   }
 
-  static badRequest(message: string, name: string) {
-    return new ApiError(400, message, name);
+  static internalError(message: string, name: string) {
+    return new ApiError(500, message, name);
   }
 
-  static internal(message: string, name: string) {
-    return new ApiError(500, message, name)
+  static unavailable(message: string, name: string) {
+    return new ApiError(503, message, name)
   }
 }

@@ -2,7 +2,7 @@ import { apiError } from "../api/constants/interfaces";
 import { handleError } from "../api/helpers/handle-error";
 import { EVENT_TYPES } from "./constants/constants";
 import { Model } from "./Model";
-import { CalculatorApi } from "../api/CalculatorApi";
+import CalculatorApi from "../api/CalculatorApi";
 
 export class Controller {
   model: Model;
@@ -17,7 +17,7 @@ export class Controller {
       this.model.setState(EVENT_TYPES.display, result);
     } catch (error) {
       const errorMessage = handleError(error);
-      this.model.setState(EVENT_TYPES.display, errorMessage);
+      this.model.setState(EVENT_TYPES.display, {errorMessage});
     }
   }
 

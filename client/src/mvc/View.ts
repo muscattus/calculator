@@ -1,7 +1,7 @@
-import { EVENT_TYPES, validationError, historyLength  as defaultHistoryLength} from "./constants/constants";
+import { EVENT_TYPES, validationError, historyLength  as defaultHistoryLength, historyLengthAtLoad} from "./constants/constants";
 import { ERROR_MESSAGES} from "../api/constants/constants";
 import { Model } from './Model';
-import { CalculatorApi } from '../api/CalculatorApi';
+import CalculatorApi from '../api/CalculatorApi';
 import { DefaultOperation, Operations, historyEntry} from "./constants/interfaces";
 export class View {
 
@@ -33,7 +33,7 @@ export class View {
     this.input!.focus();
     this.asignEventListeners();
     this.errors = Object.values(ERROR_MESSAGES);
-    this.displayHistory(defaultHistoryLength);
+    this.displayHistory(historyLengthAtLoad);
   }
 
 
@@ -77,7 +77,7 @@ export class View {
   createEquation() {
     const equation = this.input!.value;
     if (!this.validateEquation(equation)){
-      this.update(validationError);
+      this.update({errorMessage: validationError});
       return;
     }
     this.history.push({equation});
@@ -130,7 +130,7 @@ export class View {
   }
   
   update(data: any): void {
-    this.displayResult(data.result);
+    this.displayResult(data.result || data.errorMessage);
     if (data.isLogged) {
       this.addToHistory(data.result);
     } else {
@@ -139,27 +139,38 @@ export class View {
   }
 
   addToHistory(result: string): void{
-    const historyLength = this.history.length;
-    this.history[historyLength - 1].calculatedresult = result;
+    this.history[this.history.length - 1].calculatedresult = result;
     this.history.shift();
-    this.displayHistory(historyLength - 1);
+    this.displayHistory(this.history.length);
   }
 
   async displayHistory(historyLength: number): Promise<void> {
     if (this.history.length < 1) {
-      this.history = await CalculatorApi.getHistory();
+      try {
+        this.history = await CalculatorApi.getHistory();
+      } catch (error) {
+        const errorMessage = this.createHistoryEntry({entryText:'History is unavailabe'});
+        this.historyLog!.append(errorMessage);
+        return;
+      }
     }
     const log = new DocumentFragment();
-    for (let i = 0; i < historyLength; i++) {
+    for (let i = 0; i <= historyLength - 2; i++) {
       const entry = this.history[i];
-      const entryContainer = document.createElement('p');
-      entryContainer.classList.add('history-entry');
-      entryContainer.dataset.equation = entry.equation;
-      entryContainer.textContent = `${entry.equation}=${entry.calculatedresult}`;
+      const entryText = `${entry.equation}=${entry.calculatedresult}`;
+      const entryContainer = this.createHistoryEntry({data: entry.equation, entryText});
       log.append(entryContainer);
     }
     this.historyLog!.innerHTML = '';
     this.historyLog!.append(log);
+  }
+  
+  createHistoryEntry(entry: any): HTMLElement {
+    const entryContainer = document.createElement('p');
+    entryContainer.classList.add('history-entry');
+    entryContainer.dataset.equation = entry.data;
+    entryContainer.textContent = entry.entryText;
+    return entryContainer;
   }
 
   inputFromHistory(event: any) {

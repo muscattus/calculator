@@ -1,3 +1,4 @@
+import  History  from '../history/History';
 import { historyLength } from './../constants/constants';
 import { ApiError } from './../calculator/errors/ApiError';
 import { Router } from 'express';
@@ -5,15 +6,15 @@ const bodyParser = require('body-parser');
 import  { Request, Response, NextFunction } from 'express';
 const jsonParser = bodyParser.json();
 const router = Router();
-import { db } from '../db/calculator_db';
+import { DBError } from '../calculator/errors/DBError'
 
 
 router.get('/', jsonParser, async (req: Request, res: Response) => {
   try {
-    const history = await db.getLast(historyLength);
-    res.json({history: history.reverse()});
-  } catch (e){
-    console.log(e);
+    const historyLog = await History.getLastEntries(historyLength);
+    res.json({history: historyLog.reverse()});
+  } catch {
+    res.status(500).json(DBError.historyError())
   }
 })
 

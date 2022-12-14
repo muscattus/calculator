@@ -8,6 +8,7 @@ export const CODES = {
 }
 
 export const historyLength = 5;
+export const historyLengthAtLoad = historyLength + 1;
 
 export const EVENT_TYPES = {
   calculate: 'calculate',

@@ -3,8 +3,8 @@ import { fetchData } from "./helpers/fetch-data";
 import { BASE_URL } from "./constants/constants";
 
 
-class Singleton {
-  private static instance: Singleton;
+class CalculatorApi {
+  private static instance: CalculatorApi;
 
   headers: any;
 
@@ -14,12 +14,12 @@ class Singleton {
       'Content-Type': 'application/json'
     }
   }
-  public static getInstance(): Singleton {
-      if (!Singleton.instance) {
-          Singleton.instance = new Singleton();
+  public static getInstance(): CalculatorApi {
+      if (!CalculatorApi.instance) {
+        CalculatorApi.instance = new CalculatorApi();
       }
 
-      return Singleton.instance;
+      return CalculatorApi.instance;
   }
 
   public evaluateEquation = async function  (equation: string) {
@@ -51,4 +51,4 @@ class Singleton {
   }
 }
 
-export const CalculatorApi = Singleton.getInstance();
+export default CalculatorApi.getInstance();
