@@ -11,12 +11,10 @@ import History from '../history/History'
 router.post('/evaluate', jsonParser, async (req: Request, res: Response, next: NextFunction) => {
   const equation = req.body.equation;
   try {
-    let result: string;
-      result = await History.findMatch(equation, res);
-    if (!result) {
-        result = evaluate(equation);
-    }
-    const isLogged = await History.addEquationToHistory(req.body.equation, result);
+    const match = await History.findMatch(equation, res);
+    const result = match[0]?.calculatedresult || evaluate(equation)
+    const insertResult = await History.addEquationToHistory(req.body.equation, result);
+    const isLogged = insertResult && insertResult?.length;
     res.json({result, isLogged});
   } catch (error: any) {
     next(ApiError.internalError(error.message, error.name));

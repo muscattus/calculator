@@ -1,14 +1,14 @@
 import { db } from "../../knex.config";
 import { DBError } from "../calculator/errors/DBError";
-import { Entry, ListFilters } from "./interfaces";
+import { ListFilters } from "./interfaces";
 
-export default class BaseDb {
+export default class BaseDb<Record> {
   tableName: string;
   constructor (tableName: string) {
     this.tableName = tableName;
   }
 
-  async insert (entry: Entry, returnField: string): Promise<any> {
+  async insert (entry: Record, returnField: string): Promise<Record[]> {
     return db(this.tableName)
       .insert(
         [
@@ -16,7 +16,7 @@ export default class BaseDb {
         ], 
         [returnField]
       )
-      .then((result: any) => {
+      .then((result: Record[]) => {
         return result;
      })
      .catch(() => {
@@ -24,7 +24,7 @@ export default class BaseDb {
      })
   }
 
-  async list ( filters: ListFilters) {
+  async list( filters: ListFilters): Promise<Record[]> {
     return db
     .select('*')
     .from (this.tableName)
@@ -37,7 +37,7 @@ export default class BaseDb {
         queryBuilder.orderBy(filters.orderBy.field, filters.orderBy.direction)
       }
     })
-    .then((match: any) => {
+    .then((match: Record) => {
       return match;
     })
     .catch(()=> {
