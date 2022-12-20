@@ -2,26 +2,29 @@ import { db } from "../../knex.config";
 import { DBError } from "../calculator/errors/DBError";
 import { ListFilters } from "./interfaces";
 
-export default class BaseDb<Record> {
+export default class DataBaseOperations<Record> {
   tableName: string;
+  record: Record;
   constructor (tableName: string) {
     this.tableName = tableName;
   }
 
-  async insert (entry: Record, returnField: string): Promise<Record[]> {
+  async insert (record: Record, returnField: string): Promise<Record[]> {
+    this.record = record;
+    await this.beforeInsert();
     return db(this.tableName)
-      .insert(
-        [
-          entry, 
-        ], 
-        [returnField]
+    .insert(
+      [
+        record, 
+      ], 
+      [returnField]
       )
       .then((result: Record[]) => {
         return result;
-     })
-     .catch(() => {
-      return DBError.insertError();
-     })
+      })
+      .catch(() => {
+        return DBError.insertError();
+      })
   }
 
   async list( filters: ListFilters): Promise<Record[]> {
@@ -44,4 +47,9 @@ export default class BaseDb<Record> {
       return DBError.matchError()
     })
   }
+
+  async beforeInsert() {}
+  afterInsert() {}
+  beforeList() {}
+  afterList() {}
 }

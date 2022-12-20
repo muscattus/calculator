@@ -1,43 +1,46 @@
 import  { Response } from 'express';
-import BaseDB from '../db/BaseDb';
-import { Entry } from './interfaces'
-import { historyTable, idField, equationField, resultField, timestampField } from './constants';
+import DataBaseOperations from '../db/DataBaseOperations';
+import { History} from './constants/interfaces'
+import { historyTable, idField, timestampField } from './constants/constants';
+import { LastHistoryError } from './errors/LastHistoryError';
+import { errorMessages } from './errors/errorMessages';
 
-class History extends BaseDB<Entry> {
+class HistoryService extends DataBaseOperations<History> {
 
-  private static instance: History;
+  private static instance: HistoryService;
 
   private constructor (tableName: string) {
     super (tableName);
   }
 
-  public static getInstance(tableName: string): History {
-    if (!History.instance) {
-      History.instance = new History(tableName);
+  public static getInstance(tableName: string): HistoryService {
+    if (!HistoryService.instance) {
+      HistoryService.instance = new HistoryService(tableName);
     }
 
-    return History.instance;
+    return HistoryService.instance;
   }
 
-  public async addEquationToHistory (equation: string, calculatedresult: string):Promise<Entry[] | void> {
-    if (!(await this.isLastEntry(equation))) {
-      return;
-    }
-    const inserts = await this.insert({ equation, calculatedresult}, idField);
-    return inserts;
-  }
-
-  public  async isLastEntry(req: string): Promise<boolean> {
+  public async save (equation: string, calculatedresult: string):Promise<History[] | void> {
     try {
-      const previous = await this.getLastEntries(1);
-      return !(previous && previous[0].equation === req);
+      const inserts = await this.insert({ equation, calculatedresult}, idField);
+      return inserts;
+    } catch {
+      return
+    }
+  }
+
+  public async isLast(req: string): Promise<boolean> {
+    try {
+      const previous = await this.get(1);
+      return previous && previous[0].equation === req;
     } catch {
       return false
     }
     
   }
 
-  public async getLastEntries (quantity: number): Promise<Entry[]> {
+  public async get (quantity: number): Promise<History[]> {
     return this.list({
       limit: quantity,
       orderBy: {
@@ -47,15 +50,21 @@ class History extends BaseDB<Entry> {
     })    
   }
 
-  public async findMatch (equation: string, res: Response): Promise<Entry[]> {
+  public async getMatchingEntry (equation: string, res: Response): Promise<History[]> {
     const match = await this.list({
       where: {equation: equation}
     });
     return match;
   }
+
+  async beforeInsert(){
+    if (await (this.isLast(this.record.equation!))) {
+      throw new LastHistoryError(errorMessages.lastHistory);
+    }
+  }
 }
 
-export default History.getInstance(historyTable);
+export default HistoryService.getInstance(historyTable);
 
 
 

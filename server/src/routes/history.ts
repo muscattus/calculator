@@ -1,4 +1,4 @@
-import  History  from '../history/History';
+import  HistoryService  from '../history/History';
 import { historyLength } from './../constants/constants';
 import { ApiError } from './../calculator/errors/ApiError';
 import { Router } from 'express';
@@ -11,7 +11,7 @@ import { DBError } from '../calculator/errors/DBError'
 
 router.get('/', jsonParser, async (req: Request, res: Response) => {
   try {
-    const historyLog = await History.getLastEntries(historyLength);
+    const historyLog = await HistoryService.get(historyLength);
     res.json({history: historyLog.reverse()});
   } catch {
     res.status(500).json(DBError.historyError())
