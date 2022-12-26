@@ -10,3 +10,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=calcpostgres
       - POSTGRES_DB=postgres
+  mongo:
+    image: 'mongo'
+    ports:
+      - 27062:27017

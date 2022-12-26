@@ -131,6 +131,7 @@ export class View {
   
   update(data: any): void {
     this.displayResult(data.result || data.errorMessage);
+    console.log(data);
     if (data.isLogged) {
       this.addToHistory(data.result);
     } else {
@@ -156,6 +157,7 @@ export class View {
     }
     const log = new DocumentFragment();
     for (let i = 0; i <= historyLength - 2; i++) {
+    // for (let i = 0; i < this.history.length; i++) {
       const entry = this.history[i];
       const entryText = `${entry.equation}=${entry.calculatedresult}`;
       const entryContainer = this.createHistoryEntry({data: entry.equation, entryText});

@@ -4,7 +4,7 @@ const envName = process.env.NODE_ENV?.trim();
 dotenv.config({path:__dirname+`/environments/.env.${envName}`});
 
 export const db = require('knex')({
-  client: process.env.DB_CLIENT,
+  client: 'postgres',
   connection: {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,

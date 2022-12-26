@@ -1,11 +1,15 @@
 import  { Response } from 'express';
-import DataBaseOperations from '../db/DataBaseOperations';
+// import PostgresOperations from '../db/postgres/PostgresOperations';
 import { History} from './constants/interfaces'
 import { historyTable, idField, timestampField } from './constants/constants';
 import { LastHistoryError } from './errors/LastHistoryError';
 import { errorMessages } from './errors/errorMessages';
-
-class HistoryService extends DataBaseOperations<History> {
+// import MongoOperations from '../db/mongo/MongoOperations';
+import { selectDb } from '../db/BaseDb';
+// class HistoryService extends DataBaseOperations<History> {
+// class HistoryService extends MongoOperations<History> {
+const BaseDB = selectDb();
+class HistoryService extends BaseDB<History> {
 
   private static instance: HistoryService;
 
@@ -65,21 +69,3 @@ class HistoryService extends DataBaseOperations<History> {
 }
 
 export default HistoryService.getInstance(historyTable);
-
-
-
-// interface User {
-//   id: number,
-//   name: string
-// }
-
-// async function getResourse<T>(modelType: string): Promise<T[]> {
-//   let response = await fetch(`/api/${modelType}`);
-//   let json = await response.json();
-//   return json
-// }
-
-// getResourse<User>('user')
-//   .then((users) => {
-//     users.map((user) => user.id = user.id+1)
-//   })
