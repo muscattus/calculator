@@ -14,7 +14,8 @@ router.post('/evaluate', jsonParser, async (req: Request, res: Response, next: N
     const match = await HistoryService.getMatchingEntry(equation, res);
     const result = match[0]?.calculatedresult || evaluate(equation)
     const insertResult = await HistoryService.save(req.body.equation, result);
-    const isLogged = insertResult && insertResult?.length;
+    const isLogged = !!insertResult;
+    console.log(insertResult);
     res.json({result, isLogged});
   } catch (error: any) {
     next(ApiError.internalError(error.message, error.name));

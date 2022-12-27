@@ -28,6 +28,7 @@ class HistoryService extends BaseDB<History> {
   public async save (equation: string, calculatedresult: string):Promise<History[] | void> {
     try {
       const inserts = await this.insert({ equation, calculatedresult}, idField);
+      console.log('ins', inserts);
       return inserts;
     } catch {
       return

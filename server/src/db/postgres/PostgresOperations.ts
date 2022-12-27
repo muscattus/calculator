@@ -20,8 +20,9 @@ export default class PostgresOperations<Record> {
       [returnField]
       )
       .then((result: Record[]) => {
-        const isLogged = result && result?.length
-        return {result, isLogged};
+        return result[0];
+        // const isLogged = result && result?.length
+        // return {result, isLogged};
       })
       .catch(() => {
         return DBError.insertError();

@@ -1,6 +1,3 @@
-import * as dotenv from 'dotenv';
-
-
 import MongoOperations from './mongo/MongoOperations';
 import PostgresOperations from './postgres/PostgresOperations';
 
