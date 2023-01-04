@@ -1,15 +1,14 @@
 import  { Response } from 'express';
-// import PostgresOperations from '../db/postgres/PostgresOperations';
 import { History} from './constants/interfaces'
 import { historyTable, idField, timestampField } from './constants/constants';
 import { LastHistoryError } from './errors/LastHistoryError';
 import { errorMessages } from './errors/errorMessages';
-// import MongoOperations from '../db/mongo/MongoOperations';
 import { selectDb } from '../db/BaseDb';
-// class HistoryService extends DataBaseOperations<History> {
-// class HistoryService extends MongoOperations<History> {
+
+
 const BaseDB = selectDb();
-class HistoryService extends BaseDB<History> {
+
+export class HistoryService extends BaseDB<History> {
 
   private static instance: HistoryService;
 
@@ -70,3 +69,24 @@ class HistoryService extends BaseDB<History> {
 }
 
 export default HistoryService.getInstance(historyTable);
+
+// class  Base {
+//   tableName: string;
+
+//   constructor (tableName: string) {
+//     this.tableName = tableName;
+//   }
+//   static getInstance(tableName: string, service: <T>): void{
+//     if (!service.instance) {
+//       service.instance = new service(tableName);
+//     }
+
+//     return service.instance;
+//   }
+// }
+
+// class H extends BaseDB {
+//   constructor (tableName) {
+//     super(tableName);
+//   }
+// }

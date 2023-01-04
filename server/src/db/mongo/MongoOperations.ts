@@ -7,6 +7,16 @@ const History = require('./models/History');
 export default class MongoOperations<Record> {
   tableName: string;
   record: Record;
+
+
+  // public static getInstance<Service>(tableName: string, service: any){
+  //   if (!service.instance) {
+  //     service.instance = new service(tableName);
+  //   }
+
+  //   return service.instance;
+  // }
+
   constructor (tableName: string) {
     this.tableName = tableName;
     initializeMongo();
